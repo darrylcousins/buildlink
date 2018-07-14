@@ -29,6 +29,8 @@ export default class Parser extends React.Component {
     }
     this.loadData = this.loadData.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
+    this.updateDescription = this.updateDescription.bind(this)
+    this.toLowerCase = this.toLowerCase.bind(this)
   }
 
   componentWillMount() {
@@ -40,6 +42,40 @@ export default class Parser extends React.Component {
       skipEmptyLines: true,
       complete: this.loadData
     })
+  }
+
+  findMatches(regex, value) {
+  }
+
+  toLowerCase(value) {
+    const exceptions = {
+              'X': 'x',
+              'TE': 'TE',
+              'SE': 'SE',
+              'LTD': 'Ltd',
+              'PER': 'per',
+              }
+
+    // Capture any words in all caps, also capture start and end parenthesis if they
+    const allcaps_re = /[(]?\b[A-Z][A-Z]+\b[)]?/
+
+    // Capture words that contain quantity abbreviations, like 90KG, 12MM etc.
+    const quant_re= /\b[0-9\/]*[BXMKL][XMLG]?[0-9]*\b/
+
+    /*
+     * replace value with lower case and return
+     */
+    return value
+
+  }
+
+  updateDescription(e) {
+    const headers = this.state.headers
+    if (headers.indexOf('Description') !== -1) {
+      this.state.data.forEach(
+        o => ( o.Description = this.toLowerCase(o.Description) )
+      )
+    }
   }
 
   loadData(result) {
@@ -55,6 +91,10 @@ export default class Parser extends React.Component {
       meta: meta,
       headers: meta.fields
     })
+  }
+
+  lowerCaseDescription(value) {
+    console.log('Lower: ', value)
   }
 
   updateHeaders(value) {
@@ -96,7 +136,9 @@ export default class Parser extends React.Component {
         <div className={ Settings.style.colLeft }>
           <ul>
             <li>
-              Convert descriptions
+              <a href="#" onClick={ this.updateDescription }>
+                Convert descriptions
+              </a>
             </li>
             <li>
               Calculate min/max values
