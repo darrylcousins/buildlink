@@ -7,6 +7,7 @@ import React from 'react'
 import ReactTable from 'react-table'
 import Select from 'react-select'
 import makeAnimated from 'react-select/lib/animated'
+import CreatableSelect from 'react-select/lib/Creatable'
 import { Query } from 'graphql-tag'
 import gql from 'graphql'
 import Papa from 'papaparse'
@@ -26,8 +27,8 @@ export default class Parser extends React.Component {
       },
       headers: []
     }
-    this.updateData = this.updateData.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.loadData = this.loadData.bind(this)
+    this.updateHeaders = this.updateHeaders.bind(this)
   }
 
   componentWillMount() {
@@ -37,11 +38,16 @@ export default class Parser extends React.Component {
       header: true,
       download: true,
       skipEmptyLines: true,
-      complete: this.updateData
+      complete: this.loadData
     })
   }
 
-  updateData(result) {
+  loadData(result) {
+    /*
+     * load data from csv file for datagrid
+     * meta stores field names
+     * header stores user selectable field names
+    */
     const data = result.data
     const meta = result.meta
     this.setState({
@@ -51,44 +57,56 @@ export default class Parser extends React.Component {
     })
   }
 
-  handleChange(value) {
-    console.log('You\'ve selected:', value)
-    this.setState({ headers: value.map( o => o.value )})
-    console.log(this.state.headers)
+  updateHeaders(value) {
+    /*
+     * update user selectable fields of csv file
+    */
+    console.log(value)
+    if (Array.isArray(value)) {
+      this.setState({ headers: value.map( o => o.value )})
+    }
   }
 
   render() {
     const data = this.state.data
+    // get currently selected headers for datagrid
     const columns = this.state.headers.map(
       header => ({'Header': header, 'accessor': header})
     )
+    // get possible headers for select options
     const options = this.state.meta.fields.map(
       header => ({'label': header, 'value': header})
     )
+    // get currently selected headers
     const values = this.state.headers.map(
       header => ({'label': header, 'value': header})
     )
-    console.log(columns)
-    console.log(options)
     return (
       <div>
         <div className="pb3">
-          <Select
+          <CreatableSelect
             closeMenuOnSelect={ true }
             components={ makeAnimated() }
             options={ options }
             value={ values }
-            onChange={this.handleChange}
+            onChange={ this.updateHeaders }
             isMulti
             />
         </div>
         <div className={ Settings.style.colLeft }>
-          Left Col
+          <ul>
+            <li>
+              Convert descriptions
+            </li>
+            <li>
+              Calculate min/max values
+            </li>
+          </ul>
         </div>
         <div className={ Settings.style.colRight }>
           <ReactTable
-            data={data}
-            columns={columns}
+            data={ data }
+            columns={ columns }
             />
         </div>
       </div>
