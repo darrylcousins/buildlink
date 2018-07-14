@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Link,
   Route,
-  Switch
 } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,6 +20,7 @@ import HomePage from './pages/index'
 
 import './tachyons.min.css'
 import './buildlink.css'
+import 'react-table/react-table.css'
 
 export default () =>
   <ApolloProvider client={ Client }>
@@ -28,7 +28,7 @@ export default () =>
       <div className="w-100 sans-serif">
         <div className="center w85">
           <header>
-            <div className="w-100 pa3 ph5-ns bg-white">
+            <div className="w-100 ph4 pt4 pb1 bg-white">
               <div className="db dt-ns mw9 center w-100">
                 <div className="db dtc-ns v-mid tl w-50">
                   <Link to="/" className="f5 f4-ns fw6 mt0 mb1 link black-70 dib" title="Home">
@@ -45,20 +45,18 @@ export default () =>
                     <FontAwesomeIcon icon={ faGithub } color="navy" />
                     &nbsp;GitHub
                   </Link>
-                </nav>
-              </div>
-            </div>
-                <div className="ph3 ph5-ns w-100 bg-transparent pv3 mb1 mb2-ns bt bb b--black-10 overflow-auto">
-                  <Link to="/users" title="Users"
+                  <Link to="/" title="Users"
                     className={ Settings.style.navLink }>
                     <FontAwesomeIcon icon={ faUsers } color="navy" />
                     &nbsp;
                   </Link>
-                </div>
+                </nav>
+              </div>
+            </div>
           </header>
-          <div className="ph3 ph5-ns">
+          <div className="ph4">
             <div className="cf mw9 tc-m">
-              <div className="pb2 pb3-ns pt3 pt4-ns mt0 black-70">
+              <div className="pb2 pb3-ns pt2 mt0 black-70">
                 <div className="ph1 pv1 background-gray tl">
                   <Route exact path="/" component={ HomePage } />
                 </div>
