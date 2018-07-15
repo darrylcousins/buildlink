@@ -39,12 +39,12 @@ export default () =>
                   </Link>
                 </div>
                 <nav className="db dtc-ns v-mid w-100 tl tr-ns mt2 mt0-ns">
-                  <Link title="Buildlink on GitHub"
-                    to="https://github.com/darrylcousins/buildlink"
+                  <a title="Buildlink on GitHub"
+                    href="https://github.com/darrylcousins/buildlink"
                     className={ Settings.style.navLink }>
                     <FontAwesomeIcon icon={ faGithub } color="navy" />
                     &nbsp;GitHub
-                  </Link>
+                  </a>
                   <Link to="/" title="Users"
                     className={ Settings.style.navLink }>
                     <FontAwesomeIcon icon={ faUsers } color="navy" />

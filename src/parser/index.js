@@ -5,16 +5,20 @@
 import React from 'react'
 
 import ReactTable from 'react-table'
-import Select from 'react-select'
 import makeAnimated from 'react-select/lib/animated'
 import CreatableSelect from 'react-select/lib/Creatable'
-import { Query } from 'graphql-tag'
-import gql from 'graphql'
 import Papa from 'papaparse'
 
 import Settings from '../settings'
-import { getHeaders } from '../client'
-import Client from '../client'
+
+// Capture any words in all caps, also capture start and end parenthesis if they
+const ALLCAPS_RE = /[(]?\b[A-Z][A-Z]+\b[)]?/
+
+// Capture words that contain quantity abbreviations, like 90KG, 12MM etc.
+const QUANT_RE= /\b[0-9/]*[BXMKL][XMLG]?[0-9]*\b/
+
+// define set of vowel characters
+const VOWELS = new Set('aeiou'.split(''))
 
 export default class Parser extends React.Component {
 
@@ -30,7 +34,7 @@ export default class Parser extends React.Component {
     this.loadData = this.loadData.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
     this.updateDescription = this.updateDescription.bind(this)
-    this.toLowerCase = this.toLowerCase.bind(this)
+    this.capitalizeWord = this.capitalizeWord.bind(this)
   }
 
   componentWillMount() {
@@ -44,36 +48,61 @@ export default class Parser extends React.Component {
     })
   }
 
-  findMatches(regex, value) {
-  }
-
-  toLowerCase(value) {
+  capitalizeWord(value) {
     const exceptions = {
               'X': 'x',
+              'BX': 'bx',
               'TE': 'TE',
               'SE': 'SE',
               'LTD': 'Ltd',
               'PER': 'per',
               }
 
-    // Capture any words in all caps, also capture start and end parenthesis if they
-    const allcaps_re = /[(]?\b[A-Z][A-Z]+\b[)]?/
+    // cover simple exceptions
+    if (value in exceptions) return exceptions[value]
 
-    // Capture words that contain quantity abbreviations, like 90KG, 12MM etc.
-    const quant_re= /\b[0-9\/]*[BXMKL][XMLG]?[0-9]*\b/
+    // split and rejoin words that contain a /, e.g. BRACE/NOISE
+    if (value.indexOf('/') !== -1) {
+      return value.split('/').map(
+        s => this.capitalizeWord(s)
+      ).join('/')
+    }
 
     /*
      * replace value with lower case and return
      */
-    return value
 
+    let str_set = new Set(value.split(''))
+    let intersection = new Set(
+        [...str_set].filter(x => VOWELS.has(x.toLowerCase()))
+      )
+
+    // ignore anything without a vowel, e.g. DTS
+    if (intersection.size > 0) {
+      if ( ALLCAPS_RE.test(value) ) return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+    } else {
+      if ( QUANT_RE.test(value) ) return value.toLowerCase()
+    }
+
+    // no matches, return value as it is
+    return value
   }
 
   updateDescription(e) {
     const headers = this.state.headers
+    var description, result
     if (headers.indexOf('Description') !== -1) {
       this.state.data.forEach(
-        o => ( o.Description = this.toLowerCase(o.Description) )
+        o => {
+          result = ''
+          description = o.Description
+          description.split(' ').forEach(
+            s => {
+              result += ' ' + this.capitalizeWord(s)
+            }
+          )
+          o.Description = result
+        }
       )
     }
   }
@@ -134,16 +163,16 @@ export default class Parser extends React.Component {
             />
         </div>
         <div className={ Settings.style.colLeft }>
-          <ul>
-            <li>
-              <a href="#" onClick={ this.updateDescription }>
-                Convert descriptions
-              </a>
-            </li>
-            <li>
-              Calculate min/max values
-            </li>
-          </ul>
+          <a href="#" 
+            className={ Settings.style.navLink }
+            onClick={ this.updateDescription }>
+            Convert descriptions
+          </a>
+          <br/>
+          <a href="#" 
+            className={ Settings.style.navLink }>
+            Calculate min/max
+          </a>
         </div>
         <div className={ Settings.style.colRight }>
           <ReactTable
