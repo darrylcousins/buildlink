@@ -53,3 +53,7 @@ Using `react-table <https://react-table.js.org>`_ to display data.::
 Transitions::
 
   (buildlink) $ npm install --save react-transition-group
+
+Modals::
+
+  (buildlink) $ npm install --save react-modal

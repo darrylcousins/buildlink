@@ -52,7 +52,7 @@ const Settings = {
     "inputHelpText": "f6 lh-copy black-60 db mb2",
 
     // default button element style
-    "buttonDefault": "f6 link dim br2 ph3 pv2 mb2 fw8 ba b--dark-gray-black near-black bg-moon-gray",
+    "buttonDefault": "f6 link dim br3 ph3 pv2 mb2 fw8 ba b--dark-gray-black near-black bg-moon-gray",
 
     // wrap a block in a link - e.g users list
     "blockLink": "pointer",
