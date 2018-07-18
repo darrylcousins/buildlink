@@ -54,6 +54,10 @@ Transitions::
 
   (buildlink) $ npm install --save react-transition-group
 
+CSV helper::
+
+  (buildlink) $ npm install --save react-csv
+
 Modals::
 
   (buildlink) $ npm install --save react-modal

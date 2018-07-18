@@ -4,7 +4,7 @@
  */
 import React from 'react'
 
-import Parser from '../parser'
+import Parser from '../components/parser'
 
 export default () =>
   <div>
