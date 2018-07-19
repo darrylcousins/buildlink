@@ -12,13 +12,14 @@ Modal.setAppElement(document.getElementById('root'))
 // Modal styles
 const customStyles = {
   content : {
-    top : '50%',
+    width: '50%',
+    top : '30%',
     left : '50%',
     right : 'auto',
     bottom : 'auto',
     border: '3px',
     marginRight : '-50%',
-    transform : 'translate(-50%, -50%)'
+    transform : 'translate(-50%, -50%)',
   }
 }
 
@@ -48,15 +49,17 @@ export default class ModalWrapper extends React.Component {
         onRequestClose={ this.onRequestClose }
         style={ customStyles }
         >
-        <button
-          type="button"
-          className="ph0 mh0 bg-transparent bn f3 fr dib pointer"
-          onClick={ this.props.closeModal }
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <div className="db">
+        <div className="db tr">
+          <button
+            type="button"
+            className="ph0 mh0 bg-transparent bn f3 pointer"
+            onClick={ this.props.closeModal }
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="sans-serif db">
           { children }
         </div>
       </Modal>

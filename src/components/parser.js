@@ -44,6 +44,13 @@ export default class Parser extends React.Component {
   }
 
   componentWillMount() {
+    var csvFilePath = require("../datasets/test.csv");
+    Papa.parse(csvFilePath, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: this.loadData
+    })
   }
 
   loadData(result) {

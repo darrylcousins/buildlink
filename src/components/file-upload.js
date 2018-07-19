@@ -30,7 +30,7 @@ export default class FileUpload extends React.Component {
   render() {
     return (
       <form>
-        <div className="relative m3 dt dib">
+        <div className="relative dt dib w-100">
           <div className="bw0 br3 b--dark-blue bg-blue pv2 ph3 mv2 white fw1 br2 br--left pointer dtc dib bg-animate hover-bg-dark-blue"
             onClick={ this.selectFile }>
             <span className="sans-serif">
@@ -43,7 +43,7 @@ export default class FileUpload extends React.Component {
           </div>
           <input type="text"
             id="filename"
-            className="sans-serif dtc pa2 b--black-30 dib bt bl-0 bb br br3 br--right w5"
+            className="sans-serif dtc pa2 b--black-30 dib bt bl-0 bb br br3 br--right"
             placeholder="Select csv file"
             readOnly={ true }
           />
