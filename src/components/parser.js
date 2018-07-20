@@ -35,22 +35,24 @@ export default class Parser extends React.Component {
     this.loadFile = this.loadFile.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
     this.updateDescription = this.updateDescription.bind(this)
+    this.calculateMinMax = this.calculateMinMax.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.renderModal = this.renderModal.bind(this)
     this.renderDownloadModal = this.renderDownloadModal.bind(this)
     this.renderUploadModal = this.renderUploadModal.bind(this)
     this.loadFile = this.loadFile.bind(this)
+    this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
   }
 
   componentWillMount() {
-    var csvFilePath = require("../datasets/test.csv");
-    Papa.parse(csvFilePath, {
-      header: true,
-      download: true,
-      skipEmptyLines: true,
-      complete: this.loadData
-    })
+    //var csvFilePath = require("../datasets/winwal-products.csv");
+  //Papa.parse(csvFilePath, {
+  //  header: true,
+  //  download: true,
+  //  skipEmptyLines: true,
+  //  complete: this.loadData
+  //})
   }
 
   loadData(result) {
@@ -102,6 +104,17 @@ export default class Parser extends React.Component {
     }
   }
 
+  reloadCurrentFile() {
+    const { file } = this.state
+    console.log(file)
+    Papa.parse(file, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: this.loadData
+    })
+  }
+
   renderUploadModal() {
     return (
       <FileUpload
@@ -127,6 +140,9 @@ export default class Parser extends React.Component {
     if (Array.isArray(value)) {
       this.setState({ headers: value.map( o => o.value )})
     }
+  }
+
+  calculateMinMax() {
   }
 
   updateDescription() {
@@ -190,20 +206,32 @@ export default class Parser extends React.Component {
                   >Update descriptions
                   </FileAction>
                 </li>
+                <li className="">
+                  <FileAction
+                    action={ this.calulateMinMax }
+                  >Calculate min/max
+                  </FileAction>
+                </li>
               </ul>
             </div>
           }
           <div>
-            <button className="bw0 br3 bg-blue pv2 ph3 mv2 white fw1 pointer dtc dib bg-animate hover-bg-dark-blue"
-              onClick={ () => this.openModal('renderUploadModal') }
-              >Upload file
-            </button>
             { (this.state.file && this.state.data.length > 0 && this.state.headers.length > 0) &&
+            <div>
               <button className="bw0 br3 bg-green pv2 ph3 mv2 white fw1 pointer dtc dib bg-animate hover-bg-dark-green"
                 onClick={ () => this.openModal('renderDownloadModal') }>
                 Download result
               </button>
+              <button className="bw0 br3 bg-light-blue pv2 ph3 mv2 white fw1 pointer dtc dib bg-animate hover-bg-blue"
+                onClick={ this.reloadCurrentFile }
+                >Reload file
+              </button>
+            </div>
             }
+            <button className="bw0 br3 bg-blue pv2 ph3 mv2 white fw1 pointer dtc dib bg-animate hover-bg-dark-blue"
+              onClick={ () => this.openModal('renderUploadModal') }
+              >Upload file
+            </button>
           </div>
         </div>
         { (this.state.file && this.state.data.length > 0 && this.state.headers.length > 0) &&
@@ -211,6 +239,7 @@ export default class Parser extends React.Component {
             <ReactTable
               data={ data }
               columns={ columns }
+              defaultPageSize={ 15 }
               />
           </div>
         }

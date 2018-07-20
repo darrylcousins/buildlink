@@ -13,13 +13,13 @@ Modal.setAppElement(document.getElementById('root'))
 const customStyles = {
   content : {
     width: '50%',
-    top : '30%',
+    top : '45%',
     left : '50%',
     right : 'auto',
     bottom : 'auto',
-    border: '3px',
     marginRight : '-50%',
     transform : 'translate(-50%, -50%)',
+    padding: '1.5em 2em .5em 2em',
   }
 }
 
@@ -49,7 +49,7 @@ export default class ModalWrapper extends React.Component {
         onRequestClose={ this.onRequestClose }
         style={ customStyles }
         >
-        <div className="db tr">
+        <div className="db tr na3">
           <button
             type="button"
             className="ph0 mh0 bg-transparent bn f3 pointer"

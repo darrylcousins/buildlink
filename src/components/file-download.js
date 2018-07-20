@@ -8,6 +8,7 @@ import { CSVLink } from 'react-csv'
 import Select from 'react-select'
 
 import Settings from '../settings'
+import { zipFile } from './zip'
 
 // Capture csv filename
 const CSVFILENAME = /.+(\.csv)$/
@@ -22,28 +23,33 @@ export default class FileDownload extends React.Component {
     this.state = {
       filenameValid: false,
       inputValue: props.filename ? props.filename : 'test.csv',
-      rowOptions: {}
+      rowOptions: {},
+      rowsPerFile: props.data.length,
+      includeHeaders: false,
+      fileCount: 1,
     }
-    this.handleInput = this.handleInput.bind(this)
+    this.validateFilename = this.validateFilename.bind(this)
     this.selectFilesize = this.selectFilesize.bind(this)
+    this.toggleInputHeaders = this.toggleInputHeaders.bind(this)
 
   }
 
   componentWillMount() {
-    CSVFILENAME.test(this.state.inputValue) ?
+    CSVFILENAME.test(
+      this.state.inputValue) ?
       this.setState({ filenameValid: true }) :
-      this.setState({ filenameValid: false })
-    // remove useless options and present possible options
+      this.setState({ filenameValid: false }
+    )
+    let rowSizes = Array.from(ROWSIZES)
+    rowSizes.unshift(this.state.rowsPerFile)
     this.setState({
-      rowOptions: ROWSIZES.filter(
-        n => ( this.props.data.length > n ? true: false )
-      ).map(
+      rowOptions: rowSizes.map(
         n => ( { label: n, value: n } )
       )
-  })
+    })
   }
 
-  handleInput(e) {
+  validateFilename(e) {
     let value = e.target.value
     this.setState({
       filenameValid: CSVFILENAME.test(value),
@@ -51,53 +57,88 @@ export default class FileDownload extends React.Component {
     })
   }
 
-  selectFilesize() {
+  toggleInputHeaders() {
+    let { includeHeaders } = this.state
+    includeHeaders = !includeHeaders
+    this.setState( {
+      includeHeaders: includeHeaders,
+    })
+  }
+
+  selectFilesize(value) {
+    const { data } = this.props
+    let rowsPerFile = value.value
+    let fileCount = Math.ceil(data.length/rowsPerFile)
+    this.setState({
+      rowsPerFile: rowsPerFile,
+      fileCount: fileCount,
+    })
   }
 
   render() {
     const { data, headers } = this.props
+    const {
+      fileCount,
+      rowOptions,
+      includeHeaders,
+      inputValue,
+      filenameValid } = this.state
     let helpText = "Name the file to download ..."
     let warningText = "File name should end in `.csv`"
     let showWarning = this.state.filenameValid ? "dn" : "db"
     let inputColour = this.state.filenameValid ? "dark-green" : "red"
     return (
-      <form>
+      <div>
         <label
           htmlFor="filename"
-          className={ `black-60 f6 mb2 dn` }
-        >{ helpText }</label>
-        <span>Rows: { data.length }</span><br />
-        { this.state.rowOptions.length > 0 &&
-          <div className="pb3">
+          className={ `black-60 f6 mb2 db` }
+        >Select row count for download</label>
+        { rowOptions.length > 0 &&
+          <div className="mv2">
             <Select
-              placeholder="Select row size ..."
+              defaultValue={ rowOptions[0] }
               closeMenuOnSelect={ true }
-              options={ this.state.rowOptions }
+              options={ rowOptions }
               onChange={ this.selectFilesize }
             />
           </div>
         }
-        <input type="text"
-          id="filename"
-          className={ `input-reset sans-serif pa2 ba b--${ inputColour } ${ inputColour } br2` }
-          placeholder={ this.state.inputValue ? this.state.inputValue : helpText }
-          value={ this.state.inputValue }
-          onChange={ this.handleInput }
-        />
+        <div className="mv2">
+          <label className="f6 black-60">
+            <input
+              type="checkbox"
+              checked={ includeHeaders }
+              onChange={ (e) => this.toggleInputHeaders(e.target.value) }
+            />&nbsp;Include headers
+          </label>
+        </div>
+        <div className="mv2">
+          <input type="text"
+            id="filename"
+            className={ `input-reset sans-serif pa2 ba b--${ inputColour } ${ inputColour } br2 w-100` }
+            placeholder={ inputValue ? inputValue : helpText }
+            value={ inputValue }
+            onChange={ this.validateFilename }
+          />
+        </div>
         <small
           id={ "filename-help-text" }
           className={ `${ showWarning } f6 lh-copy red mv2` }
         >{ warningText }
         </small>
-        <div className={ this.state.filenameValid ? "db" : "dn" }>
+        <div className={ filenameValid ? "db" : "dn" }>
+          <div
+            className="f5 lh-copy blue"
+          >{ `${fileCount } file${ fileCount > 1 ? "s" : "" } to download` }
+          </div>
           <CSVLink
             data={ data }
             headers={ headers }
-            filename={ this.state.inputValue }
+            filename={ inputValue }
             className="sans-serif bw0 br3 bg-blue pv2 ph3 mv2 white fw1 pointer no-underline bg-animate hover-bg-dark-blue fr"
           >Download file</CSVLink>
         </div>
-      </form>
+      </div>
     )
   }
 }

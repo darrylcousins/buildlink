@@ -46,7 +46,7 @@ export default () =>
                     &nbsp;GitHub
                   </a>
                   <Link to="/" title="Users"
-                    className={ Settings.style.navLink }>
+                    className="dn">
                     <FontAwesomeIcon icon={ faUsers } color="navy" />
                     &nbsp;
                   </Link>
