@@ -6,6 +6,8 @@ import React from 'react'
 
 import { CSVLink } from 'react-csv'
 import Select from 'react-select'
+import Papa from 'papaparse'
+import { DownloadFile } from 'js-file-download'
 
 import Settings from '../settings'
 import { zipFile } from './zip'
@@ -28,6 +30,7 @@ export default class FileDownload extends React.Component {
       includeHeaders: false,
       fileCount: 1,
     }
+    this.download = this.download.bind(this)
     this.validateFilename = this.validateFilename.bind(this)
     this.selectFilesize = this.selectFilesize.bind(this)
     this.toggleInputHeaders = this.toggleInputHeaders.bind(this)
@@ -47,6 +50,20 @@ export default class FileDownload extends React.Component {
         n => ( { label: n, value: n } )
       )
     })
+  }
+
+  download() {
+  /*
+   * the action after validation
+   */
+    const { data, headers } = this.props
+    const { rowsPerFile, fileCount, includeHeaders } = this.state
+    console.log(fileCount)
+    let csv = Papa.unparse(
+      data, {
+        header: includeHeaders
+      })
+    console.log(csv)
   }
 
   validateFilename(e) {
@@ -131,12 +148,11 @@ export default class FileDownload extends React.Component {
             className="f5 lh-copy blue"
           >{ `${fileCount } file${ fileCount > 1 ? "s" : "" } to download` }
           </div>
-          <CSVLink
-            data={ data }
-            headers={ headers }
-            filename={ inputValue }
+          <button
             className="sans-serif bw0 br3 bg-blue pv2 ph3 mv2 white fw1 pointer no-underline bg-animate hover-bg-dark-blue fr"
-          >Download file</CSVLink>
+            onClick={ this.download }
+          >{ `Download ${ fileCount > 1 ? "all" : "file" }` }
+          </button>
         </div>
       </div>
     )

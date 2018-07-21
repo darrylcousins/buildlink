@@ -46,13 +46,13 @@ export default class Parser extends React.Component {
   }
 
   componentWillMount() {
-    //var csvFilePath = require("../datasets/winwal-products.csv");
-  //Papa.parse(csvFilePath, {
-  //  header: true,
-  //  download: true,
-  //  skipEmptyLines: true,
-  //  complete: this.loadData
-  //})
+    var csvFilePath = require("../datasets/winwal-products.csv");
+    Papa.parse(csvFilePath, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: this.loadData
+    })
   }
 
   loadData(result) {
@@ -124,11 +124,26 @@ export default class Parser extends React.Component {
   }
 
   renderDownloadModal() {
+    /*
+     * filter data by selected headers before passing to download
+     */
+    const { data, headers, file } = this.state
+    const result = data.map(
+      row => ( Object.keys(row)
+        .filter(key => headers.includes(key))
+        .reduce((obj, key) => {
+          return {
+            ...obj,
+            [key]: row[key]
+          };
+        }, {})
+      )
+    )
     return (
       <FileDownload
-        data={ this.state.data }
-        headers={ this.state.headers }
-        filename={ this.state.file.name }
+        data={ result }
+        headers={ headers }
+        filename={ file.name }
       />
     )
   }
@@ -203,7 +218,7 @@ export default class Parser extends React.Component {
                 <li className="">
                   <FileAction
                     action={ this.updateDescription }
-                  >Update descriptions
+                  >Lower case descriptions
                   </FileAction>
                 </li>
                 <li className="">

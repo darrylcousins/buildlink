@@ -6,4 +6,6 @@
 import { JSZip } from 'jszip'
 
 export const zipFile = function(dataset) {
+
+  const zip = new JSZip()
 }
