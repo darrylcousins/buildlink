@@ -144,6 +144,7 @@ export default class Parser extends React.Component {
         data={ result }
         headers={ headers }
         filename={ file.name }
+        closeModal={ this.closeModal }
       />
     )
   }
@@ -152,9 +153,22 @@ export default class Parser extends React.Component {
     /*
      * update user selectable fields of csv file
     */
-    if (Array.isArray(value)) {
-      this.setState({ headers: value.map( o => o.value )})
-    }
+    this.setState({ headers: value.map( o => o.value )})
+
+    // need to note if this is a new column and update data accordingly
+    // find values not in original file headers
+    const { meta } = this.state
+    const newHeaders = value
+      .map( (n) => n.value )
+      .filter( (n) => !meta.fields.includes(n) )
+    // map to data and add new fields if missing
+    this.state.data.forEach(
+      o => {
+        newHeaders.forEach(
+          header => { if (!o.hasOwnProperty(header)) o[header] = "" }
+        )
+      }
+    )
   }
 
   calculateMinMax() {
@@ -169,10 +183,10 @@ export default class Parser extends React.Component {
           description = o.Description
           description.split(' ').forEach(
             s => {
-              result += ' ' + capitalizeWord(s)
+              result += capitalizeWord(s) + ' '
             }
           )
-          o.Description = result
+          o.Description = result.trim()
         }
       )
     }

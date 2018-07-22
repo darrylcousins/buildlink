@@ -7,7 +7,8 @@ import React from 'react'
 import { CSVLink } from 'react-csv'
 import Select from 'react-select'
 import Papa from 'papaparse'
-import { DownloadFile } from 'js-file-download'
+import DownloadFile from 'js-file-download'
+import JSZip from 'jszip'
 
 import Settings from '../settings'
 import { zipFile } from './zip'
@@ -16,7 +17,7 @@ import { zipFile } from './zip'
 const CSVFILENAME = /.+(\.csv)$/
 
 // set file sizes by row count
-const ROWSIZES = [200, 400]
+const ROWSIZES = [100, 200, 400]
 
 export default class FileDownload extends React.Component {
 
@@ -24,7 +25,7 @@ export default class FileDownload extends React.Component {
     super(props)
     this.state = {
       filenameValid: false,
-      inputValue: props.filename ? props.filename : 'test.csv',
+      fileName: props.filename ? props.filename : 'test.csv',
       rowOptions: {},
       rowsPerFile: props.data.length,
       includeHeaders: false,
@@ -39,7 +40,7 @@ export default class FileDownload extends React.Component {
 
   componentWillMount() {
     CSVFILENAME.test(
-      this.state.inputValue) ?
+      this.state.fileName) ?
       this.setState({ filenameValid: true }) :
       this.setState({ filenameValid: false }
     )
@@ -56,21 +57,46 @@ export default class FileDownload extends React.Component {
   /*
    * the action after validation
    */
-    const { data, headers } = this.props
-    const { rowsPerFile, fileCount, includeHeaders } = this.state
-    console.log(fileCount)
-    let csv = Papa.unparse(
-      data, {
-        header: includeHeaders
-      })
-    console.log(csv)
+    const { closeModal, data, headers } = this.props
+    const { rowsPerFile, fileCount, includeHeaders, fileName } = this.state
+    let csv
+    if (fileCount == 1) {
+      csv = Papa.unparse(
+        data, {
+          quotes: true,
+          header: includeHeaders
+        })
+      DownloadFile(csv, fileName)
+    } else {
+      let zip = JSZip()
+      let parts = fileName.split('.')
+      let suffix = parts.pop()
+      let folderName = parts.join('.')
+      let start, end, n, fileData, newFilename
+      // python would be: for n in range(N)
+      for (n of Array.from(Array(fileCount).keys())) {
+        start = rowsPerFile * n
+        end = (rowsPerFile * (n + 1))
+        fileData = data.slice(start, end)
+        csv = Papa.unparse(
+          fileData, {
+            quotes: true,
+            header: includeHeaders
+          })
+        newFilename = `${ folderName }(${ String(n + 1) }).${ suffix }`
+        zip.file(newFilename, csv)
+      }
+      zip.generateAsync({ type: "blob" })
+        .then( blob => DownloadFile(blob, `${ folderName }.zip`) )
+    }
+    closeModal()
   }
 
   validateFilename(e) {
     let value = e.target.value
     this.setState({
       filenameValid: CSVFILENAME.test(value),
-      inputValue: value,
+      fileName: value,
     })
   }
 
@@ -98,7 +124,7 @@ export default class FileDownload extends React.Component {
       fileCount,
       rowOptions,
       includeHeaders,
-      inputValue,
+      fileName,
       filenameValid } = this.state
     let helpText = "Name the file to download ..."
     let warningText = "File name should end in `.csv`"
@@ -133,8 +159,8 @@ export default class FileDownload extends React.Component {
           <input type="text"
             id="filename"
             className={ `input-reset sans-serif pa2 ba b--${ inputColour } ${ inputColour } br2 w-100` }
-            placeholder={ inputValue ? inputValue : helpText }
-            value={ inputValue }
+            placeholder={ ( fileName ? fileName : helpText ) }
+            value={ fileName }
             onChange={ this.validateFilename }
           />
         </div>

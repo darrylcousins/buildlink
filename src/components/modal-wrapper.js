@@ -39,12 +39,12 @@ export default class ModalWrapper extends React.Component {
 
   render() {
 
-    const { children } = this.props
+    const { children, isOpen, closeModal } = this.props
 
     return (
       <Modal
         closeTimeoutMS={ 150 }
-        isOpen={ this.props.isOpen }
+        isOpen={ isOpen }
         onAfterOpen={ this.afterOpenModal }
         onRequestClose={ this.onRequestClose }
         style={ customStyles }
@@ -53,7 +53,7 @@ export default class ModalWrapper extends React.Component {
           <button
             type="button"
             className="ph0 mh0 bg-transparent bn f3 pointer"
-            onClick={ this.props.closeModal }
+            onClick={ closeModal }
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
