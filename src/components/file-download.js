@@ -4,14 +4,10 @@
  */
 import React from 'react'
 
-import { CSVLink } from 'react-csv'
 import Select from 'react-select'
 import Papa from 'papaparse'
 import DownloadFile from 'js-file-download'
 import JSZip from 'jszip'
-
-import Settings from '../settings'
-import { zipFile } from './zip'
 
 // Capture csv filename
 const CSVFILENAME = /.+(\.csv)$/
@@ -57,10 +53,10 @@ export default class FileDownload extends React.Component {
   /*
    * the action after validation
    */
-    const { closeModal, data, headers } = this.props
+    const { closeModal, data } = this.props
     const { rowsPerFile, fileCount, includeHeaders, fileName } = this.state
     let csv
-    if (fileCount == 1) {
+    if (fileCount === 1) {
       csv = Papa.unparse(
         data, {
           quotes: true,
@@ -119,7 +115,6 @@ export default class FileDownload extends React.Component {
   }
 
   render() {
-    const { data, headers } = this.props
     const {
       fileCount,
       rowOptions,

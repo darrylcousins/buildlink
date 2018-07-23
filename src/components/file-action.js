@@ -4,8 +4,6 @@
  */
 import React from 'react'
 
-import Settings from '../settings'
-
 export default class FileActions extends React.Component {
 
   render() {
@@ -14,7 +12,7 @@ export default class FileActions extends React.Component {
 
     return (
       <a href="#"
-        className={ Settings.style.navLink }
+        className="link pa1 f6 fw1 navy hover-bg-gray hover-white dib pointer br2"
         onClick={ action }>
         { children }
       </a>

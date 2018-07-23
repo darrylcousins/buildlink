@@ -8,19 +8,6 @@ import { ApolloLink } from 'apollo-link'
 import { withClientState } from 'apollo-link-state'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-
-const typeDefs = `
-  type Header {
-      id: Int!
-      value: String
-      label: String
-    }
-
-  type headers {
-    header: Header
-  }
-  `
-
 export const getHeaders = gql`
   query {
     headers {
