@@ -8,6 +8,9 @@ import ReactTable from 'react-table'
 import makeAnimated from 'react-select/lib/animated'
 import CreatableSelect from 'react-select/lib/Creatable'
 import Papa from 'papaparse'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import faBars from '@fortawesome/fontawesome-free-solid/faBars'
+import faAngleDoubleLeft from '@fortawesome/fontawesome-free-solid/faAngleDoubleLeft'
 
 import Settings from '../settings'
 import ModalWrapper from './modal-wrapper'
@@ -51,14 +54,14 @@ export default class Parser extends React.Component {
   }
 
   componentWillMount() {
-    var csvFilePath = require("../datasets/winwal-products.csv");
-    Papa.parse(csvFilePath, {
-      header: true,
-      download: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      complete: this.loadData
-    })
+    //var csvFilePath = require("../datasets/winwal-products.csv");
+    //Papa.parse(csvFilePath, {
+    //  header: true,
+    //  download: true,
+    //  dynamicTyping: true,
+    //  skipEmptyLines: true,
+    //  complete: this.loadData
+    //})
   }
 
   loadData(result) {
@@ -173,7 +176,6 @@ export default class Parser extends React.Component {
      * update user selectable fields of csv file
     */
     this.setState({ headers: value.map( o => o.value )})
-    console.log(value)
 
     // need to note if this is a new column and update data accordingly
     // find values not in original file headers
@@ -196,7 +198,7 @@ export default class Parser extends React.Component {
 
     // check for require fields for calculations
     const requiredFields = [
-      "Free Stock",
+      "Jul2018 Qty Start",
       "Ytd Qty Sold",
     ]
     let intersection = new Set(
@@ -213,31 +215,7 @@ export default class Parser extends React.Component {
       "Min",
       "Max",
     ]
-    intersection = new Set(
-      [...addFields].filter(x => meta.fields.indexOf(x) < 0)
-    )
-    if (intersection.size > 0) {
-      // get currently selected headers
-      let values = headers.map(
-        header => ({'label': header, 'value': header})
-      )
-      intersection.forEach(
-        field => values.push({'label': field, 'value': field })
-      )
-      this.updateHeaders(values)
-    }
-
-    data.forEach(
-      (row, idx) => {
-        let free = row["Free Stock"]
-        let sold = row["Ytd Qty Sold"]
-        data[idx]["Min"] = sold === 0 ? Math.round(free/2) : Math.round(sold/4)
-        data[idx]["Max"] = sold === 0 ? Math.round(free) : Math.round(sold/2)
-      }
-    )
-
-    // set final display for fun
-    const resultColumns = ["Code", "Description"]
+    const resultColumns = ["Code", "Description", "Last Supplier"]
     resultColumns.push(...requiredFields)
     resultColumns.push(...addFields)
     let values = []
@@ -245,12 +223,25 @@ export default class Parser extends React.Component {
       field => values.push({'label': field, 'value': field })
     )
     this.updateHeaders(values)
+
+    data.forEach(
+      (row, idx) => {
+        let start = row[requiredFields[0]]
+        let sold = row[requiredFields[1]]
+        let min = 0, max = 0, outer = false
+        min = sold > start ? (sold/3 > start/2 ? sold/3 : start/2) : start/2
+        max = outer ? min + outer: 2 * min
+        data[idx]["Min"] = Math.ceil(min)
+        data[idx]["Max"] = Math.ceil(max)
+      }
+    )
+
   }
 
   removeEmptyProducts() {
     const filterKeys = [
-      "Ytd Qty Sold",
       "Jul2018 Qty Start",
+      "Ytd Qty Sold",
       "On Hand",
       "Committed Stock",
       "Free Stock",
@@ -258,12 +249,11 @@ export default class Parser extends React.Component {
 
     let result = this.state.data.filter(
       row => {
-        // return true if all values of filterKeys not 0
-        return Boolean(filterKeys
-          .filter( key => row[key] !== 0 ).length)
+        return (row[filterKeys[0]] > 0 && row[filterKeys[1]] > 0)
+        //return Boolean(filterKey
+        //  .filter( key => Number(row[key]) > 0 ).length )
       }
     )
-    console.log(result.length)
     this.setState({ data: result })
   }
 
@@ -347,20 +337,20 @@ export default class Parser extends React.Component {
                 onClick={ this.toggleLeftColumn }
                 aria-label="Close"
               >
-                <span aria-hidden="true">&gt;</span>
+                <FontAwesomeIcon icon={ faBars } color="navy" />
               </button>
             </div>
         }
         { isLeftColumnOpen &&
           <div className={ Settings.style.colLeft }>
-            <div className="db tl nt3">
+            <div className={ `${ this.isDataLoaded() ? "db" : "dn" } tl nt3` }>
               <button
                 type="button"
                 className="ph0 mh0 bg-transparent bn f5 pointer"
                 onClick={ this.toggleLeftColumn }
                 aria-label="Close"
               >
-                <span aria-hidden="true">&lt;</span>
+                <FontAwesomeIcon icon={ faAngleDoubleLeft } color="navy" />
               </button>
             </div>
             { data.length > 0 &&
@@ -421,10 +411,9 @@ export default class Parser extends React.Component {
             <ReactTable
               data={ data }
               columns={ columns }
-              defaultPageSize={ 17 }
+              defaultPageSize={ 200 }
               />
           </div>
-          }
         }
         <ModalWrapper
           isOpen={ this.state.isModalOpen }

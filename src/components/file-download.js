@@ -25,13 +25,14 @@ export default class FileDownload extends React.Component {
       rowOptions: {},
       rowsPerFile: props.data.length,
       includeHeaders: false,
+      splitOnSupplier: false,
       fileCount: 1,
     }
     this.download = this.download.bind(this)
     this.validateFilename = this.validateFilename.bind(this)
     this.selectFilesize = this.selectFilesize.bind(this)
     this.toggleInputHeaders = this.toggleInputHeaders.bind(this)
-
+    this.toggleSplitOnSupplier = this.toggleSplitOnSupplier.bind(this)
   }
 
   componentWillMount() {
@@ -54,9 +55,41 @@ export default class FileDownload extends React.Component {
    * the action after validation
    */
     const { closeModal, data } = this.props
-    const { rowsPerFile, fileCount, includeHeaders, fileName } = this.state
+    const { rowsPerFile,
+        fileCount,
+        includeHeaders,
+        splitOnSupplier,
+        fileName
+      } = this.state
     let csv
-    if (fileCount === 1) {
+    if (splitOnSupplier === true) {
+      // find supplier groups
+      let supplier = "Last Supplier"
+      let result = data.reduce(function (r, a) {
+          r[a[supplier]] = r[a[supplier]] || []
+          r[a[supplier]].push(a)
+          return r
+        }, Object.create(null))
+      let zip = JSZip()
+      let parts = fileName.split('.')
+      let suffix = parts.pop()
+      let folderName = parts.join('.')
+      let fileData, newFilename
+      Object.keys(result).forEach(
+        (key) => {
+          fileData = result[key]
+          csv = Papa.unparse(
+            fileData, {
+              quotes: true,
+              header: includeHeaders
+            }
+          )
+        newFilename = `${ key }/${ folderName }.${ suffix }`
+        zip.file(newFilename, csv)
+      })
+      zip.generateAsync({ type: "blob" })
+        .then( blob => DownloadFile(blob, `${ folderName }.zip`) )
+    } else if (fileCount === 1) {
       csv = Papa.unparse(
         data, {
           quotes: true,
@@ -104,6 +137,14 @@ export default class FileDownload extends React.Component {
     })
   }
 
+  toggleSplitOnSupplier() {
+    let { splitOnSupplier } = this.state
+    splitOnSupplier = !splitOnSupplier
+    this.setState( {
+      splitOnSupplier: splitOnSupplier,
+    })
+  }
+
   selectFilesize(value) {
     const { data } = this.props
     let rowsPerFile = value.value
@@ -119,8 +160,10 @@ export default class FileDownload extends React.Component {
       fileCount,
       rowOptions,
       includeHeaders,
+      splitOnSupplier,
       fileName,
       filenameValid } = this.state
+    const { headers } = this.props
     let helpText = "Name the file to download ..."
     let warningText = "File name should end in `.csv`"
     let showWarning = this.state.filenameValid ? "dn" : "db"
@@ -150,6 +193,17 @@ export default class FileDownload extends React.Component {
             />&nbsp;Include headers
           </label>
         </div>
+        { headers.includes("Last Supplier") != -1 &&
+          <div className="mv2">
+            <label className="f6 black-60">
+              <input
+                type="checkbox"
+                checked={ splitOnSupplier }
+                onChange={ (e) => this.toggleSplitOnSupplier(e.target.value) }
+              />&nbsp;Split files on supplier
+            </label>
+          </div>
+        }
         <div className="mv2">
           <input type="text"
             id="filename"
