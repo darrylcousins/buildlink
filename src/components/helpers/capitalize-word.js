@@ -7,7 +7,7 @@
 const ALLCAPS_RE = /[(]?\b[A-Z][A-Z]+\b[)]?/
 
 // Capture words that contain quantity abbreviations, like 90KG, 12MM etc.
-const QUANT_RE= /\b[0-9/]*[BXMKL][XMLG]?[0-9]*\b/
+const QUANT_RE= /\b[0-9/]*[BXMKLG][XMLG]?[0-9]*\b/
 
 // define set of vowel characters
 const VOWELS = new Set('aeiou'.split(''))

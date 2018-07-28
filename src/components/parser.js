@@ -13,12 +13,14 @@ import faBars from '@fortawesome/fontawesome-free-solid/faBars'
 import faAngleDoubleLeft from '@fortawesome/fontawesome-free-solid/faAngleDoubleLeft'
 
 import Settings from '../settings'
+import { capitalizeWord } from './helpers/capitalize-word'
+import { createOuterColumns, setOuters, setUnits } from './actions/outers'
+import { createMinMaxColumns, setMinMax } from './actions/min-max'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
 import FileAction from './file-action'
 import FileDownload from './file-download'
 import FileUpload from './file-upload'
-import { capitalizeWord } from './capitalize-word'
 
 export default class Parser extends React.Component {
 
@@ -41,8 +43,9 @@ export default class Parser extends React.Component {
     this.loadFile = this.loadFile.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
     this.updateDescription = this.updateDescription.bind(this)
-    this.calculateMinMax = this.calculateMinMax.bind(this)
     this.removeEmptyProducts = this.removeEmptyProducts.bind(this)
+    this.calculateMinMax = this.calculateMinMax.bind(this)
+    this.createOuterQtyColumns = this.createOuterQtyColumns.bind(this)
     this.toggleLeftColumn = this.toggleLeftColumn.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -50,18 +53,11 @@ export default class Parser extends React.Component {
     this.renderDownloadModal = this.renderDownloadModal.bind(this)
     this.renderUploadModal = this.renderUploadModal.bind(this)
     this.loadFile = this.loadFile.bind(this)
+    this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
   }
 
   componentWillMount() {
-    //var csvFilePath = require("../datasets/winwal-products.csv");
-    //Papa.parse(csvFilePath, {
-    //  header: true,
-    //  download: true,
-    //  dynamicTyping: true,
-    //  skipEmptyLines: true,
-    //  complete: this.loadData
-    //})
   }
 
   loadData(result) {
@@ -83,8 +79,16 @@ export default class Parser extends React.Component {
     return Boolean(this.state.file && this.state.data.length > 0)
   }
 
-  loadFile() {
-    let file = document.getElementById('fileinput').files[0]
+  clearData() {
+    this.setState({
+      data: [],
+      meta: { fields: [] },
+      headers: [],
+      file: {},
+    })
+  }
+
+  parseFile(file) {
     Papa.parse(file, {
       header: true,
       download: true,
@@ -92,8 +96,20 @@ export default class Parser extends React.Component {
       skipEmptyLines: true,
       complete: this.loadData
     })
+  }
+
+  loadFile() {
+    let file = document.getElementById('fileinput').files[0]
+    this.parseFile(file)
     this.closeModal()
     this.setState({ file: file} )
+  }
+
+  reloadCurrentFile() {
+    const { file } = this.state
+    if (file ) {
+      this.parseFile(file)
+    }
   }
 
   toggleLeftColumn() {
@@ -122,18 +138,6 @@ export default class Parser extends React.Component {
     if (!this.state.isModalOpen) return null
     if (this.hasOwnProperty(this.state.renderModalName)) {
       return this[this.state.renderModalName]()
-    }
-  }
-
-  reloadCurrentFile() {
-    const { file } = this.state
-    if (file ) {
-      Papa.parse(file, {
-        header: true,
-        download: true,
-        skipEmptyLines: true,
-        complete: this.loadData
-      })
     }
   }
 
@@ -193,49 +197,15 @@ export default class Parser extends React.Component {
     )
   }
 
+  createOuterQtyColumns() {
+    this.updateHeaders(createOuterColumns(this.state))
+    setOuters(this.state)
+    setUnits(this.state)
+  }
+
   calculateMinMax() {
-    const { data, meta, headers } = this.state
-
-    // check for require fields for calculations
-    const requiredFields = [
-      "Jul2018 Qty Start",
-      "Ytd Qty Sold",
-    ]
-    let intersection = new Set(
-      [...requiredFields].filter(x => meta.fields.indexOf(x) < 0)
-    )
-    if (intersection.size > 0) {
-      let intersectionString = Array.from(intersection).map( i => i).join("\n")
-      window.alert(`Action not possible without the fields:\n${ intersectionString }`)
-      return null
-    }
-
-    // check for fields to populate - create if missing
-    const addFields = [
-      "Min",
-      "Max",
-    ]
-    const resultColumns = ["Code", "Description", "Last Supplier"]
-    resultColumns.push(...requiredFields)
-    resultColumns.push(...addFields)
-    let values = []
-    resultColumns.forEach(
-      field => values.push({'label': field, 'value': field })
-    )
-    this.updateHeaders(values)
-
-    data.forEach(
-      (row, idx) => {
-        let start = row[requiredFields[0]]
-        let sold = row[requiredFields[1]]
-        let min = 0, max = 0, outer = false
-        min = sold > start ? (sold/3 > start/2 ? sold/3 : start/2) : start/2
-        max = outer ? min + outer: 2 * min
-        data[idx]["Min"] = Math.ceil(min)
-        data[idx]["Max"] = Math.ceil(max)
-      }
-    )
-
+    this.updateHeaders(createMinMaxColumns(this.state))
+    setMinMax(this.state)
   }
 
   removeEmptyProducts() {
@@ -249,23 +219,14 @@ export default class Parser extends React.Component {
 
     let result = this.state.data.filter(
       row => {
-        return (row[filterKeys[0]] > 0 && row[filterKeys[1]] > 0)
-        //return Boolean(filterKey
-        //  .filter( key => Number(row[key]) > 0 ).length )
+        return (
+          ( row[filterKeys[0]] > 0 && row[filterKeys[1]] >= 0 )
+            || ( row[filterKeys[0]] >= 0 && row[filterKeys[1]] > 0 )
+            && !row["Description"].toLowerCase().includes("pallet")
+        )
       }
     )
     this.setState({ data: result })
-  }
-
-  clearData() {
-    this.setState({
-      data: [],
-      meta: {
-        fields: []
-      },
-      headers: [],
-      file: {},
-    })
   }
 
   updateDescription() {
@@ -379,6 +340,12 @@ export default class Parser extends React.Component {
                     >Calculate min/max
                     </FileAction>
                   </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.createOuterQtyColumns }
+                    >Outer qty columns
+                    </FileAction>
+                  </li>
                 </ul>
               </div>
             }
@@ -412,6 +379,7 @@ export default class Parser extends React.Component {
               data={ data }
               columns={ columns }
               defaultPageSize={ 200 }
+              filterable={ true }
               />
           </div>
         }

@@ -84,7 +84,8 @@ export default class FileDownload extends React.Component {
               header: includeHeaders
             }
           )
-        newFilename = `${ key }/${ folderName }.${ suffix }`
+        // use supplier code for filename
+        newFilename = `${ key }.${ suffix }`
         zip.file(newFilename, csv)
       })
       zip.generateAsync({ type: "blob" })
