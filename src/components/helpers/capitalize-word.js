@@ -9,6 +9,9 @@ const ALLCAPS_RE = /[(]?\b[A-Z][A-Z]+\b[)]?/
 // Capture words that contain quantity abbreviations, like 90KG, 12MM etc.
 const QUANT_RE= /\b[0-9/]*[BXMKLG][XMLG]?[0-9]*\b/
 
+// Capture bolt sizes M12 etc and leave alone
+const BOLT_RE= /\b[M][0-9]+\b/
+
 // define set of vowel characters
 const VOWELS = new Set('aeiou'.split(''))
 
@@ -45,6 +48,7 @@ export const capitalizeWord = function(value) {
   if (intersection.size > 0) {
     if ( ALLCAPS_RE.test(value) ) return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
   } else {
+    if ( BOLT_RE.test(value) ) return value
     if ( QUANT_RE.test(value) ) return value.toLowerCase()
   }
 

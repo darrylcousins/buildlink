@@ -194,7 +194,7 @@ export default class FileDownload extends React.Component {
             />&nbsp;Include headers
           </label>
         </div>
-        { headers.includes("Last Supplier") != -1 &&
+        { headers.includes("Last Supplier") !== -1 &&
           <div className="mv2">
             <label className="f6 black-60">
               <input

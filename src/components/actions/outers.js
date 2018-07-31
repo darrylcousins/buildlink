@@ -1,8 +1,13 @@
+/**
+ * @file Provides methods for adding outer columns and values
+ * @author Darryl Cousins <darryljcousins@gmail.com>
+ */
+
 export const createOuterColumns = function(state) {
-  const { data, meta, headers } = state
   // check for fields to populate - create if missing
   const addFields = [
     "UOM",
+    "Unit Size",
     "Outer Qty",
     "Outer Desc",
     "Order in Outers",
@@ -20,34 +25,11 @@ export const createOuterColumns = function(state) {
 export const setOuters = function(state) {
   const { data } = state
   let outerQty = "Outer Qty"
+  let unitSize = "Unit Size"
   data.forEach(
     (row, idx) => {
       if ( String(row[outerQty]) === "0") data[idx][outerQty] = ""
+      if ( String(row[unitSize]) === "0") data[idx][unitSize] = ""
     }
   )
 }
-
-export const setUnits = function(state) {
-  const { data } = state
-  let unit = "UOM"
-  let desc = "Description"
-  data.forEach(
-    (row, idx) => {
-      let lwrDesc = row[desc].toLowerCase()
-      if (
-        (
-          lwrDesc.includes("plywood")
-          || lwrDesc.includes("gib")
-          || lwrDesc.includes("mdf")
-        )
-        &&
-        (
-          lwrDesc.includes("1200")
-          || lwrDesc.includes("1220")
-        )
-      ) data[idx][unit] = "Sheet"
-    }
-  )
-}
-
-

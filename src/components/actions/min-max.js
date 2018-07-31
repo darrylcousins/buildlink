@@ -1,6 +1,9 @@
+/**
+ * @file Provides methods for adding min/max columns and values
+ * @author Darryl Cousins <darryljcousins@gmail.com>
+ */
 
 export const createMinMaxColumns = function(state) {
-  const { meta, headers } = state
   // check for fields to populate - create if missing
   const addFields = [
     "Min",
@@ -47,7 +50,7 @@ export const setMinMax = function(state) {
       // but otherwise 2 is the min min
       if (
         row["Last Supplier"] !== "MAKLTD"
-        || row["Last Supplier"] !== "ACCTOO"
+        && row["Last Supplier"] !== "ACCTOO"
       ) {
         min = min === 1 ? 2 : min
       }

@@ -28,10 +28,20 @@ export default class FileUpload extends React.Component {
   }
 
   render() {
+    let bgColour, borderColour, hoverColour
+    bgColour = "blue"
+    borderColour = "dark-blue"
+    hoverColour = "dark-blue"
+    if (this.props.colourTheme === "supplier") {
+      bgColour = "orange"
+      borderColour = "red"
+      hoverColour = "red"
+    }
     return (
       <div>
         <div className="relative mv3 dt dib w-100">
-          <div className="bw0 br3 b--dark-blue bg-blue pv2 ph3 mv2 white fw1 br2 br--left pointer dtc dib bg-animate hover-bg-dark-blue"
+          <div
+            className={ `bw0 br3 b--${ borderColour } bg-${ bgColour } pv2 ph3 mv2 white fw1 br2 br--left pointer dtc dib bg-animate hover-bg-${ borderColour }` }
             onClick={ this.selectFile }>
             <span className="sans-serif">
               Browse&hellip;
@@ -48,7 +58,8 @@ export default class FileUpload extends React.Component {
             readOnly={ true }
           />
         </div>
-        <button className="bw0 br3 bg-blue pv2 ph3 mv2 white fw1 pointer dn bg-animate hover-bg-dark-blue fr"
+        <button
+          className={ `bw0 br3 bg-${ bgColour } pv2 ph3 mv2 white fw1 pointer dn bg-animate hover-bg-${ hoverColour } fr` }
           id="uploadButton"
           onClick={ this.props.loadFile }>
           Upload file

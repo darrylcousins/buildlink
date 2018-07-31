@@ -14,8 +14,10 @@ import faAngleDoubleLeft from '@fortawesome/fontawesome-free-solid/faAngleDouble
 
 import Settings from '../settings'
 import { capitalizeWord } from './helpers/capitalize-word'
-import { createOuterColumns, setOuters, setUnits } from './actions/outers'
+import { createOuterColumns, setOuters } from './actions/outers'
 import { createMinMaxColumns, setMinMax } from './actions/min-max'
+import { setUnits } from './actions/units'
+import { createMSLColumns, processMSL } from './actions/msl'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
 import FileAction from './file-action'
@@ -52,12 +54,17 @@ export default class Parser extends React.Component {
     this.renderModal = this.renderModal.bind(this)
     this.renderDownloadModal = this.renderDownloadModal.bind(this)
     this.renderUploadModal = this.renderUploadModal.bind(this)
+    this.renderSupplierUploadModal = this.renderSupplierUploadModal.bind(this)
     this.loadFile = this.loadFile.bind(this)
     this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
+
+    this.getMSL = this.getMSL.bind(this)
   }
 
   componentWillMount() {
+    //let file = require('../datasets/products.csv')
+    //this.parseFile(file)
   }
 
   loadData(result) {
@@ -112,6 +119,30 @@ export default class Parser extends React.Component {
     }
   }
 
+  parseSupplierFile(file) {
+    Papa.parse(file, {
+      header: true,
+      download: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: this.loadSupplierData
+    })
+  }
+
+  loadSupplierData(result) {
+    /*
+     * load data from csv file
+    */
+    const data = result.data
+    const meta = result.meta
+  }
+
+  loadSupplierFile() {
+    let file = document.getElementById('fileinput').files[0]
+    this.parseSupplierFile(file)
+    this.closeModal()
+  }
+
   toggleLeftColumn() {
     let { isLeftColumnOpen } = this.state
     this.setState({
@@ -145,6 +176,16 @@ export default class Parser extends React.Component {
     return (
       <FileUpload
         loadFile={ this.loadFile }
+      />
+    )
+  }
+
+  renderSupplierUploadModal() {
+    console.log("HERE")
+    return (
+      <FileUpload
+        loadFile={ this.loadSupplierFile }
+        colourTheme="supplier"
       />
     )
   }
@@ -208,6 +249,11 @@ export default class Parser extends React.Component {
     setMinMax(this.state)
   }
 
+  getMSL() {
+    this.updateHeaders(createMSLColumns(this.state))
+    processMSL(this.state)
+  }
+
   removeEmptyProducts() {
     const filterKeys = [
       "Jul2018 Qty Start",
@@ -216,13 +262,15 @@ export default class Parser extends React.Component {
       "Committed Stock",
       "Free Stock",
     ]
+    const desc = "Description"
 
     let result = this.state.data.filter(
       row => {
         return (
-          ( row[filterKeys[0]] > 0 && row[filterKeys[1]] >= 0 )
-            || ( row[filterKeys[0]] >= 0 && row[filterKeys[1]] > 0 )
-            && !row["Description"].toLowerCase().includes("pallet")
+          (( row[filterKeys[0]] > 0 && row[filterKeys[1]] >= 0 )
+            || ( row[filterKeys[0]] >= 0 && row[filterKeys[1]] > 0 ))
+            && !row[desc].toLowerCase().includes("pallet")
+            && !row[desc].toLowerCase().includes("^^")
         )
       }
     )
@@ -230,18 +278,20 @@ export default class Parser extends React.Component {
   }
 
   updateDescription() {
-    if (this.state.headers.indexOf('Description') !== -1) {
+    let desc = "Description"
+    if (this.state.headers.indexOf(desc) === -1) desc = "MSL Description"
+    if (this.state.headers.indexOf(desc) !== -1) {
       var description, result
       this.state.data.forEach(
         o => {
           result = ''
-          description = o.Description
+          description = o[desc]
           description.split(' ').forEach(
             s => {
               result += capitalizeWord(s) + ' '
             }
           )
-          o.Description = result.trim()
+          o[desc] = result.trim()
         }
       )
     }
@@ -346,6 +396,12 @@ export default class Parser extends React.Component {
                     >Outer qty columns
                     </FileAction>
                   </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.getMSL }
+                    >process MSL
+                    </FileAction>
+                  </li>
                 </ul>
               </div>
             }
@@ -370,6 +426,12 @@ export default class Parser extends React.Component {
                 onClick={ () => this.openModal('renderUploadModal') }
                 >Upload file
               </button>
+              { (this.isDataLoaded()) &&
+                <button className="bw0 br3 bg-red pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-red"
+                  onClick={ () => this.openModal('renderSupplierUploadModal') }>
+                  Upload Supplier File
+                </button>
+              }
             </div>
           </div>
         }
@@ -378,8 +440,12 @@ export default class Parser extends React.Component {
             <ReactTable
               data={ data }
               columns={ columns }
-              defaultPageSize={ 200 }
+              defaultPageSize={ 17 }
               filterable={ true }
+              defaultFilterMethod={ (filter, row, column) => {
+                const id = filter.pivotId || filter.id
+                return row[id] !== undefined ? String(row[id]).includes(filter.value) : true
+              } }
               />
           </div>
         }
