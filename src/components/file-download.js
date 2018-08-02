@@ -80,7 +80,6 @@ export default class FileDownload extends React.Component {
           fileData = result[key]
           csv = Papa.unparse(
             fileData, {
-              quotes: true,
               header: includeHeaders
             }
           )
@@ -93,7 +92,7 @@ export default class FileDownload extends React.Component {
     } else if (fileCount === 1) {
       csv = Papa.unparse(
         data, {
-          quotes: true,
+          quotes: false, // eaccounts don't deal with quotes
           header: includeHeaders
         })
       DownloadFile(csv, fileName)
@@ -110,7 +109,7 @@ export default class FileDownload extends React.Component {
         fileData = data.slice(start, end)
         csv = Papa.unparse(
           fileData, {
-            quotes: true,
+            quotes: false, // eaccounts don't deal with quotes
             header: includeHeaders
           })
         newFilename = `${ folderName }(${ String(n + 1) }).${ suffix }`

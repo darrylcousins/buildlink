@@ -1,0 +1,420 @@
+MSL Code,MSL Description,UOM,Outer Qty,Outer Desc,Unit Size
+BNM12100G,M12 x 100 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12110G,M12 x 110 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12120G,M12 x 120 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12130G,M12 x 130 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12140G,M12 x 140 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12150G,M12 x 150 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM12160G,M12 x 160 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12180G,M12 x 180 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12200G,M12 x 200 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12220G,M12 x 220 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12240G,M12 x 240 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12260G,M12 x 260 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12280G,M12 x 280 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM12300G,M12 x 300 Eng Bolt/Nut Galv (10)  Barcode,Each,10,,
+BNM1265G,M12 x 65 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM1275G,M12 x 75 Eng Bolt/Nut Galv (25)  Barcode,Each,25,,
+BNM1290G,M12 x 90 Eng Bolt/Nut Galv (25) Barcode,Each,25,,
+BNM16120G,M16 x 120 Eng Bolt/Nut Galv (15),Each,15,,
+BNM16150G,M16 x 150 Eng Bolt/Nut Galv (15),Each,15,,
+BNM16180G,M16 x 180 Eng Bolt/Nut Galv (10),Each,10,,
+BNM16200G,M16 x 200 Eng Bolt/Nut Galv (10),Each,10,,
+BNM16220G,M16 x 220 Eng Bolt/Nut Galv (10),Each,10,,
+BNM16240G,M16 x 240 Eng Bolt/ Nut Galv (10),Each,10,,
+BNM16260G,M16 x 260 Eng Bolt/Nut Galv (10),Each,10,,
+BNM16300G,M16 x 300 Eng Bolt/Nut Galv (10),Each,10,,
+BNM16350G,M16 x 350 Eng Bolt/Nut Galv (5),Each,5,,
+CBNM10100G,M10 x 100 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM10110G,M10 x 110 Coach Bolt/Nut Galv (50)  Barcode,Each,50,,
+CBNM10120G,M10 x 120 Coach Bolt/Nut Galv (50)  Barcode,Each,50,,
+CBNM10130G,M10 x 130 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM10140G,M10 x 140 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM10150G,M10 x 150 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM10160G,M10 x 160 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM10180G,M10 x 180 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM10200G,M10 x 200 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM10220G,M10 x 220 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM10240G,M10 x 240 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM10260G,M10 x 260 Coach Bolt/Nut Galv (10) Barcode,Each,10,,
+CBNM1050G,M10 x 50 Coach Bolt/Nut Galv (75) Barcode,Each,75,,
+CBNM1065G,M10 x 65 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM1075G,M10 x 75 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM1090G,M10 x 90 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM12100G,M12 x 100 Coach Bolt/Nut Galv (25) Barcode,Each,25,,
+CBNM12110G,M12 x 110 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM12120G,M12 x 120 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM12130G,M12 x 130 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM12140G,M12 x 140 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM12150G,M12 x 150 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM12160G,M12 x 160 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12170G,M12 x 170 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12180G,M12 x 180 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12200G,M12 x 200 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12220G,M12 x 220 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12240G,M12 x 240 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12260G,M12 x 260 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12280G,M12 x 280 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM12300G,M12 x 300 Coach Bolt/Nut Galv (10)  Barcode,Each,10,,
+CBNM1265G,M12 x 65 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM1275G,M12 x 75 Coach Bolt/Nut Galv (25)  Barcode,Each,25,,
+CBNM1290G,M12 x 90 Coach Bolt/Nut Galv (25) Barcode,Each,25,,
+CBNM16100G,M16 x 100 Coach Bolt/Nut Galv (10),Each,10,,
+CBNM16220G,M16 x 220 Coach Bolt/Nut Galv (10),Each,10,,
+CBNM16260G,M16 x 260 Coach Bolt/Nut Galv (10),Each,10,,
+CBNM16300G,M16 x 300 Coach Bolt/Nut Galv (5),Each,5,,
+CBNM16350G,M16 x 350 Coach Bolt/Nut Galv (5),Each,5,,
+CBNM1690G,M16 x 90 Coach Bolt/Nut Galv (10),Each,10,,
+CBNM8100G,M8 x 100 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM8110G,M8 x 110 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM8130G,M8 x 130 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM840G,M8 x 40 Coach Bolt/Nut Galv (75) Barcode,Each,75,,
+CBNM850G,M8 x 50 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM865G,M8 x 65 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM875G,M8 x 75 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM890G,M8 x 90 Coach Bolt/Nut Galv (50) Barcode,Each,50,,
+CBNM6100Z,M6 x 100 Coach Bolt/Nut Zinc (100) Barcode,Each,100,,
+CBNM640Z,M6 x 40 Coach Bolt/Nut Zinc (150) Barcode,Each,150,,
+CBNM650Z,M6 x 50 Coach Bolt/Nut Zinc (150) Barcode,Each,150,,
+CBNM665Z,M6 x 65 Coach Bolt/Nut Zinc (150) Barcode,Each,150,,
+CBNM675Z,M6 x 75 Coach Bolt/Nut Zinc (125) Barcode,Each,125,,
+CFDP8100,8 x 100 Drive Pin STD Velocity (100),Each,100,,
+CFDP850,8 x 50 Drive Pin STD Velocity (100),Each,100,,
+CFDP865,8 x 65 Drive Pin STD Velocity (100),Each,100,,
+CFDP875,8 x 75 Drive Pin STD Velocity (100),Each,100,,
+CFDP890,8 x 90 Drive Pin STD Velocity (100),Each,100,,
+CFMNA330,3 x 30mm Masonry Nail (PKT 200),Box,,,200
+CFMNA340,3 x 40mm Masonry Nail (PKT 200),Box,,,200
+CFMNA350,3 x 50mm Masonry Nail (PKT 200),Box,,,200
+CFMNA4100,4 x 100mm Masonry Nail Heavy (PKT 100),Box,,,100
+CFMNA425,4 x 25mm Masonry Nail Heavy (PKT 200),Box,,,200
+CFMNA440,4 x 40mm Masonry Nail Heavy (PKT 200),Box,,,200
+CFMNA450,4 x 50mm Masonry Nail Heavy (PKT 200),Box,,,200
+CFMNA465,4 x 65mm Masonry Nail Heavy (PKT 200),Box,,,200
+CFMNA475,4 x 75mm Masonry Nail Heavy (PKT 100),Box,,,100
+CFMNW340,3 x 30mm Masonry Nail With Washer (PKT 200),Box,,,200
+CFNIAM6525,6.5 x 25 Nail-in Nylon Anchor Mush HD (PKT 100),Box,,,100
+CFNIAM6538,6.5 x 38 Nail-in Nylon Anchor Mush HD (PKT 100),Box,,,100
+CFNIAM6550,6.5 x 50 Nail In Nylon Anchor Mush HD  (PKT 100),Box,,,100
+CFNIAM6575,6.5 x 75 Nail-in Nylon Anchor Mush HD (PKT 100),Box,,,100
+CFNIAR6538,6.5 x 38 Nail-in Nylon Anchor RND HD (PKT 100),Box,,,100
+CFNIAR6550,6.5 x 50 Nail-in Nylon Anchor RND HD (PKT 100),Box,,,100
+CFNYP525,5 x 25mm Nylon Wall Plugs (100),Each,100,,
+CFNYP630,6 x 30mm Nylon Wall Plugs (100),Each,100,,
+CFNYP738,7 x 38mm Nylon Wall Plugs (100),Each,100,,
+CFNYP840,8 x 40mm Nylon Wall Plugs  (100),Each,100,,
+CFSAG1050,10 x 50    Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAG1075,10 x 75    Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAG1095,10 x 95    Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAG12100,12 x 100  Sleeve Anchor Hex HD Galv (20),Each,20,,
+CFSAG1260,12 x 60   Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAG840,8 x 40     Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAG865,8 x 65     Sleeve Anchor Hex HD Galv (25),Each,25,,
+CFSAZ1050,10 x 50 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ1075,10 x 75 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ1095,10 x 95 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ12100,12 x 100 Sleeve Anchor Hex HD Z/C (20),Each,20,,
+CFSAZ12130,12 x 130 Sleeve Anchor Hex HD Z/C (20),Each,20,,
+CFSAZ1260,12 x 60 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ1275,12 x 75 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ6555,6.5 x 55 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ840,8 x 40 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ865,8 x 65 Sleeve Anchor Hex HD Z/C (25),Each,25,,
+CFSAZ885,8 x 85 Sleeve Anchor Hex HD Z/C (20),Each,20,,
+CFSBH10100,10 x 100 Screw Bolt Hex HD Z/C (25),Each,25,,
+CFSBH10120,10 x 120 Screw Bolt Hex HD Z/C (25),Each,25,,
+CFSBH12100,12 x 100 Screw Bolt Hex HD Z/C (25),Each,25,,
+CFSBH12100G,12 x 100 Screw Bolt Hex HD Galv (25),Each,25,,
+CFSBH12150,12 x 150 Screw Bolt Hex HD Z/C (25),Each,25,,
+CFSBH12150G,12 x 150 Screw Bolt Hex HD Galv (25),Each,25,,
+CFSBH8100,8 x 100 Screw Bolt Hex HD Z/C (25),Each,25,,
+CFSD16,16mm Round Disc (100),Each,100,,
+CFSD22,22mm Round Disc (100),Each,100,,
+CFTBG12100,12 x 100  Fortress Through Bolt Galv (25),Each,25,,
+CFTBG12120,12 x 120  Fortress Through Bolt Galv (25),Each,25,,
+CFTBG12135,12 x 135  Fortress Through Bolt Galv (25),Each,25,,
+CFTBG12180,12 x 180  Through Bolt Galv (25),Each,25,,
+CFTBG1280,12 x 80 Through Bolt Galv (25),Each,25,,
+CFTBX12100,12 x 100 Through Bolts S/S T316 (25),Each,25,,
+CFTBX12135,12 x 135 Through Bolts S/S T316 (25),Each,25,,
+CFTBX1280,12 x 80   Through Bolts S/S T316 (25),Each,25,,
+CSM10100G,10mm x 100 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM10120G,10mm x 120 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM10130G,10mm x 130 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM10150G,10mm x 150 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM10160G,10mm x 160 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM10180G,10mm x 180 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM1040G,10mm x 40 Coach Screws Galv (75)  Barcoded,Each,75,,
+CSM1050G,10mm x 50 Coach Screws Galv (75) Barcoded,Each,75,,
+CSM1065G,10mm x 65 Coach Screws Galv (50)  Barcoded,Each,50,,
+CSM1075G,10mm x 75 Coach Screws Galv (50)  Barcoded,Each,50,,
+CSM1090G,10mm x 90 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM12100G,12mm x 100 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM12120G,12mm x 120 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM12130G,12mm x 130 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM12150G,12mm x 150 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM12180G,12mm x 180 Coach Screws Galv (10) Barcoded,Each,10,,
+CSM12200G,12mm x 200 Coach Screws Galv (10) Barcoded,Each,10,,
+CSM12260G,12mm x 260 Coach Screws Galv (10) Barcoded,Each,10,,
+CSM1250G,12mm x 50 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM1265G,12mm x 65 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM1275G,12mm x 75 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM1290G,12mm x 90 Coach Screws Galv (25) Barcoded,Each,25,,
+CSM6100G,6mm x 100 Coach Screws Galv (100) Barcoded,Each,100,,
+CSM650G,6mm x 50 Coach Screws Galv (150) Barcoded,Each,150,,
+CSM675G,6mm x 75 Coach Screws Galv (125) Barcoded,Each,125,,
+CSM8100G,8mm x 100 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM840G,8mm x 40 Coach Screws Galv (75) Barcoded,Each,75,,
+CSM850G,8mm x 50 Coach Screws Galv (75) Barcoded,Each,75,,
+CSM865G,8mm x 65 Coach Screws Galv (75) Barcoded,Each,75,,
+CSM875G,8mm x 75 Coach Screws Galv (50) Barcoded,Each,50,,
+CSM890G,8mm x 90 Coach Screws Galv (50)  Barcoded,Each,50,,
+DECKX106010M2P,10g x 60 RSD CSK Torx Deck Screws 10m2 Pack T304 (550+2 Bit),Jar,,,
+DECKX1060BR,10g x 60 RSD CSK Deck Screws  S/S (CTN 1000) Bronze Finish,Box,,,1000
+DECKX1060BR100,10g x 60 RSD CSK Deck Screws + Bit S/S Bronze Finish (100),Jar,,,100
+DECKX1060P,10g x 60 RSD CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKX1060P100,10g x 60 RSD CSK Torx Deck Screws + Bit S/S T304  (PKT 100),Box,,,100
+DECKX1060TP,10g x 60 T316 S/S RSD CSK Torx Deck Screws + Bit (CTN 1000),Box,,,1000
+DECKX1060TP100,10g x 60 T316 S/S RSD CSK Torx Deck Screws + Bit (PKT 100),Box,,,100
+DECKX1075BR,10g x 75 RSD CSK Deck Screws S/S (CTN 1000) Bronze Finish,Box,,,1000
+DECKX1075BR100,10g x 75 RSD CSK Deck Screws + S/S Bronze Finish (100),Jar,,,100
+DECKX1075P,10g x 75 RSD CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKX1075P100,10g x 75 RSD CSK Torx Deck Screws + Bit S/S T304  (PKT 100),Box,,,100
+DECKX1075TP,10g x 75 T316 S/S RSD CSK Torx Deck Screws + Bit (CTN 1000),Box,,,1000
+DECKX1075TP100,10g x 75 T316 S/S RSD CSK Torx Deck Screws + Bit (PKT 100),Box,,,100
+DECKX1275BR,12g x 75 RSD CSK Deck Screws S/S (CTN 1000) Bronze Finish,Box,,,1000
+DECKX1275BRP100,12g x 75 RSD CSK Deck Screws + S/S Bronze Finish (100),Jar,,,100
+DECKX1275P,12g x 75 RSD CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKX1275P100,12g x 75 RSD CSK Torx Deck Screws + Bit S/S T304  (PKT 100),Box,,,100
+DECKX1275TP,12g x 75 T316 S/S RSD CSK Torx Deck Screws + Bit (CTN 1000),Box,,,1000
+DECKX1275TP100,12g x 75 T316 S/S RSD CSK Torx Deck Screws + Bit (PKT 100),Box,,,100
+DECKX1290BR,12g x 90 RSD CSK Deck Screws S/S (CTN 1000) Bronze Finish,Box,,,1000
+DECKX1290BRP100,12g x 90 RSD CSK Deck Screws + S/S Bronze Finish (100),Jar,,,100
+DECKX1290P,12g x 90 RSD CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKX1290P100,12g x 90 RSD CSK Torx Deck Screws + Bit S/S T304  (PKT 100),Box,,,100
+DECKX1290TP,12g x 90 T316 S/S RSD CSK Torx Deck Screws + Bit (CTN 1000),Box,,,1000
+DECKX1290TP100,12g x 90 T316 S/S RSD CSK Torx Deck Screws + Bit (PKT 100),Box,,,100
+DECKX850P,8g x 50 RSD CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKX850P100,8g x 50 RSD CSK Torx Deck Screws + Bit S/S T304 (PKT 100),Box,,,100
+DECKX865P,8g x 65 RSD CSK Torx Deck Screws + Bit S/S T304 (BKT 1000),Box,,,1000
+DECKX865P100,8g x 65 RSD CSK Torx Deck Screws + Bit S/S T304 (PKT 100),Box,,,100
+DECKXCSK1060BRP,10g x 60 CSK Torx Deck Screws + Bit S/S T304 Bronze CTN 1000,Box,,,1000
+DECKXCSK1060BRP100,10g x 60 CSK Torx Deck Screws + Bit S/S T304 Bronze PKT 100,Box,,,100
+DECKXCSK1060P,10g x 60 CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKXCSK1060P100,10g x 60 CSK Torx Deck Screws + Bit S/S T304 (PKT 100),Box,,,100
+DECKXCSK1060TP,10g x 60 T316 S/S  CSK Torx Deck Screws + Bit (CTN 1000),Box,,,1000
+DECKXCSK1060TP100,10g x 60 T316 S/S CSK Torx Deck Screws + Bit (PKT 100),Box,,,100
+DECKXCSK1075BRP,10g x 75 CSK Torx Deck Screws + Bit S/S T304 Bronze CTN 1000,Box,,,1000
+DECKXCSK1075BRP100,10g x 75 CSK Torx Deck Screws + Bit S/S T304 Bronze PKT 100,Box,,,100
+DECKXCSK1075P,10g x 75 CSK Torx Deck Screws + Bit S/S T304 (CTN 1000),Box,,,1000
+DECKXCSK1075P100,10g x 75 CSK Torx Deck Screws + Bit S/S T304 (PKT 100),Box,,,100
+GYP625C,6g x 25 Gypsum S PNT Coarse  PKT 1000,Box,,,1000
+GYP625CJ,6g x 25 Gypsum S PNT Coarse Jar 200,Jar,,,200
+GYP625F,6g x 25 Gypsum S PNT Fine  PKT 1000,Box,,,1000
+GYP625FJ,6g x 25 Gypsum S PNT Fine Jar 200,Jar,,,200
+GYP630C,6g x 32 Gypsum S PNT Coarse  PKT 1000,Box,,,1000
+GYP630CJ,6g x 32 Gypsum S PNT Coarse Jar 200,Jar,,,200
+GYP630F,6g x 32 Gypsum S PNT Fine PKT 1000,Box,,,1000
+GYP630FJ,6g x 32 Gypsum S PNT Fine Jar 200,Jar,,,200
+GYP645C,6g x 45 Gypsum S PNT Coarse PKT 1000,Box,,,1000
+GYP645CJ,6g x 45 Gypsum S PNT Coarse Jar 200,Jar,,,200
+GYP645F,6g x 45 Gypsum S PNT Fine PKT 1000,Box,,,1000
+GYPCOL625C,6g x 25 Gypsum S PNT Coarse      (1000 Collated),Collated,,,1000
+GYPCOL625F,6g x 25 Gypsum S PNT Fine            (1000 Collated),Collated,,,1000
+GYPCOL630C,6g x 32 Gypsum S PNT Coarse     (1000 Collated),Collated,,,1000
+GYPCOL630F,6g x 32 Gypsum S PNT Fine            (1000 Collated),Collated,,,1000
+GYPCOL630FC,6g x 32 GYP Fine/Coarse Duo      (1000 Collated),Collated,,,1000
+GYPCOL630FCBU,6g x 32 (5000 Collated) GYP Fine/Coarse Duo,Collated,,,1000
+GYPCOL640C,6g x 40 Gypsum S PNT Coarse      (1000 Collated),Collated,,,1000
+GYPCOL640F,6g x 40 Gypsum S PNT Fine             (1000 Collated),Collated,,,1000
+GYPCOL640FC,6g x 40 Gypsum Fine/Coarse Duo (1000 Collated),Collated,,,1000
+GYPCOL650F,6g x 50 Gypsum S PNT Fine            (1000 Collated),Collated,,,1000
+TKGYPCOL625,6g x 25 Gypsum Teks Fine (collated) 1000,Collated,,,1000
+TKGYPCOL630,6g x 32 Gypsum Teks Fine (collated) 1000,Collated,,,1000
+TKGYPCOL640,6g x 40 Gypsum Teks Fine (collated) 1000,Collated,,,1000
+H25FB,25 x 20 Fixed Pin Bronze Hinge (50),Each,50,,
+H90FB,90 x 60 Fixed Pin Bronze Hinge (20),Each,20,,
+H90SRLB,90 x 60 Small Radius Loose Pin Bronze Hinge (20),Each,20,,
+HX100100SS,100 x 100 x 2.5 S/S Hinge (S/S Bearings),Each,,,
+HX7550,75 x 50 x 1.5 S/S Hinge Fixed Pin T304 (20),Each,20,,
+NHFSM10G,M10 Hex Full Nuts Galv   (100),Each,100,,
+NHFSM12G,M12 Hex Full Nuts Galv 100,Each,100,,
+R73AS42J,3.2 x 6.7mm Domed Alum 4.2 Rivets Jars 100,Jar,,,100
+R73AS43J,3.2 x 8.2mm Domed Alum 4.3 Rivets Jars 100,Jar,,,100
+R73AS44J,3.2 x 9.6mm Domed Alum 4.4 Rivets Jars 100,Jar,,,100
+R73AS46J,3.2 x 12.7mm Domed Alum 4.6 Rivets Jars 100,Jar,,,100
+R73AS52J,4.0 x 7.1mm Domed Alum 5.2 Rivets Jars 100,Jar,,,100
+R73AS53J,4.0 x 8.9mm Domed Alum 5.3 Rivets Jars 100,Jar,,,100
+R73AS55J,4.0 x 12.0mm Domed Alum 5.5 Rivets Jars 100,Jar,,,100
+R73AS58J,4.0 x 16.8mm Domed Alum 5.8 Rivets Jars 50,Jar,,,50
+R73AS62J,4.8 x 8.0mm Domed Alum 6.2 Rivets Jars 50,Jar,,,50
+R73AS64J,4.8 x 11.1mm Domed Alum 6.4 Rivets Jars 50,Jar,,,50
+R73AS65J,4.8 x 12.7mm Domed Alum 6.5 Rivets Jars 50,Jar,,,50
+R73AS66J,4.8 x 14.5mm Domed Alum 6.6 Rivets Jars 50,Jar,,,50
+R73AS68J,4.8 x 17.5mm Domed Alum 6.8 Rivets Jars 50,Jar,,,50
+SFP1065J,10g x 65 Surefast CSK Pozi Z/C Jar 100,Jar,,,100
+SFP1075J,10g x 75 Surefast CSK  Pozi Z/C Jar 50,Jar,,,50
+SFP616J,6g x 16 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP620J,6g x 20 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP625J,6g x 25 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP820J,8g x 20 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP825J,8g x 25 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP828J,8g x 28 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP832J,8g x 32 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP840J,8g x 40 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP845J,8g x 45 Surefast CSK Pozi Z/C Jar 200,Jar,,,200
+SFP850J,8g x 50 Surefast CSK Pozi Z/C Jar 100,Jar,,,100
+SFP865J,8g x 65 Surefast CSK Pozi Z/C Jar 100,Jar,,,100
+SFQ10100J,10g x 100 Surefast CSK SQDR Z/C Jar 50,Jar,,,50
+SFQ10100P,10g x 100 Surefast CSK SQDR Z/C PKT 250,Box,,,250
+SFQ1050P,10g x 50   Surefast CSK SQDR Z/C PKT 500,Box,,,500
+SFQ1065J,10g x 65   Surefast CSK SQDR Z/C Jar 100,Jar,,,100
+SFQ1065P,10g x 65   Surefast CSK SQDR Z/C PKT 500,Box,,,500
+SFQ1075J,10g x 75   Surefast CSK SQDR Z/C Jar 50,Jar,,,50
+SFQ1075P,10g x 75   Surefast CSK SQDR Z/C  PKT 500,Box,,,500
+SFQ616P,6g x 16     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ620J,6g x 20     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ620P,6g x 20     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ625J,6g x 25     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ625P,6g x 25     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ632J,6g x 32     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ632P,6g x 32     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ640P,6g x 40     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ820J,8g x 20     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ820P,8g x 20       Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ825J,8g x 25     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ825P,8g x 25     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ828P,8g x 28     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ832J,8g x 32     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ832P,8g x 32     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ840J,8g x 40     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ840P,8g x 40     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ845J,8g x 45     Surefast CSK SQDR Z/C Jar 200,Jar,,,200
+SFQ845P,8g x 45     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ850J,8g x 50     Surefast CSK SQDR Z/C Jar 100,Jar,,,100
+SFQ850P,8g x 50     Surefast CSK SQDR Z/C PKT 1000,Box,,,1000
+SFQ865J,8g x 65     Surefast CSK SQDR Z/C Jar 100,Jar,,,100
+SFQ865P,8g x 65     Surefast CSK SQDR Z/C PKT 500,Box,,,500
+SFQ10100CL3P,10g x 100 Surefast CSK SQDR CL3 PKT 250,Box,,,250
+SFQ1050CL3P,10g x 50     Surefast CSK SQDR CL3 PKT 500,Box,,,500
+SFQ1075CL3P,10g x 75   Surefast CSK SQDR CL3  PKT 500,Box,,,500
+SFQ825CL3P,8g x 25     Surefast CSK SQDR CL3 PKT 1000,Box,,,1000
+SFQ832CL3P,8g x 32     Surefast CSK SQDR CL3 PKT 1000,Box,,,1000
+SFQ840CL3P,8g x 40     Surefast CSK SQDR CL3 PKT 1000,Box,,,1000
+SFQ845CL3P,8g x 45     Surefast CSK SQDR CL3 PKT 1000,Box,,,1000
+SFQ850CL3P,8g x 50     Surefast CSK SQDR CL3 PKT 1000,Box,,,1000
+SFQ865CL3P,8g x 65     Surefast CSK SQDR CL3 PKT 500,Box,,,500
+SFQX10100J,10g x 100 Surefast CSK SQDR S/S Jar 50,Jar,,,50
+SFQX10100P,10g x 100 Surefast CSK SQDR S/S 200,Jar,,,200
+SFQX1050J,10g x 50 Surefast CSK SQDR S/S Jar 100,Jar,,,100
+SFQX1050P,10g x 50 Surefast CSK SQDR S/S 500,Jar,,,500
+SFQX1065J,10g x 65 Surefast CSK SQDR S/S Jar 100,Jar,,,100
+SFQX1065P,10g x 65 Surefast CSK SQDR S/S 500,Jar,,,500
+SFQX1075J,10g x 75 Surefast CSK SQDR S/S Jar 50,Jar,,,50
+SFQX1075P,10g x 75 Surefast CSK SQDR S/S (500),Jar,,,500
+SFQX1090J,10g x 90 Surefast CSK SQDR S/S Jar 50,Jar,,,50
+SFQX1090P,10g x 90 Surefast CSK SQDR S/S 500,Jar,,,500
+SFQX820J,8g x 20 Surefast CSK SQDR S/S Jar 200,Jar,,,200
+SFQX825J,8g x 25 Surefast CSK SQDR S/S Jar 200,Jar,,,200
+SFQX825P,8g x 25 Surefast CSK SQDR S/S 1000,Jar,,,1000
+SFQX832J,8g x 32 Surefast CSK SQDR S/S Jar 200,Jar,,,200
+SFQX832P,8g x 32 Surefast CSK SQDR S/S 1000,Jar,,,1000
+SFQX840J,8g x 40 Surefast CSK SQDR S/S Jar 200,Jar,,,200
+SFQX840P,8g x 40 Surefast CSK SQDR S/S 1000,Jar,,,1000
+SFQX845J,8g x 45 Surefast CSK SQDR S/S Jar 200,Jar,,,200
+SFQX845P,8g x 45 Surefast CSK SQDR S/S 1000,Jar,,,1000
+SFQX850J,8g x 50 Surefast CSK SQDR S/S Jar 100,Jar,,,100
+SFQX850P,8g x 50 Surefast CSK SQDR S/S 1000,Jar,,,1000
+SFQX865J,8g x 65 Surefast CSK SQDR S/S Jar 100,Jar,,,100
+SFQX865P,8g x 65 Surefast CSK SQDR S/S (500),Jar,,,500
+TRM10G,M10 x 1m Threaded Rod Galv  (25),Each,25,,
+TRM12G,M12 x 1m Threaded Rod Galv  (20),Each,20,,
+TRM16G,M16 x 1m Threaded Rod Galv  (10),Each,10,,
+TRM20G,M20 x 1m Threaded Rod Galv (10),Each,10,,
+TT1225NC4,12 x 25 Hex W/F T17 W/Neo CL:4  (200),Box,,,200
+TT1225NC4J,12 x 25 Hex W/F Timber T17 W/Seal CL:4 Jar 50,Jar,,,50
+TT1235NC4,12 x 35 Hex W/F T17 W/Neo CL:4 (200),Box,,,200
+TT1235NC4J,12 x 35 Hex W/F Timber T17 W/Seal CL:4 Jar 50,Jar,,,50
+TT1245NC4,12 x 45 Hex W/F T17 W/Neo CL:4  (200),Box,,,200
+TT1245NC4J,12 x 45 Hex W/F Timber T17 W/Seal CL.4 Jar 50,Jar,,,50
+TT1255NC4,12 x 55 Hex W/F T17 W/Neo CL:4  (200),Box,,,200
+TT1255NC4J,12 x 55 Hex W/F Timber T17 W/Seal CL:4 Jar 50,Jar,,,50
+TT1265NC4,12 x 65 Hex W/F T17 W/Neo CL:4 (100),Box,,,100
+TT14100NC4,14 x 100 Hex W/F T17 W/Neo CL:4 (100),Box,,,100
+TT14125NC4,14 x 125 Hex W/F T17 W/Neo CL:4  (100),Box,,,100
+TT1475NC4,14 x 75 Hex W/F T17 W/Neo CL:4 (100),Box,,,100
+TT1475NC4J,14 x 75 Hex W/F Timber T17 W/Seal CL:4 Jar 25,Jar,,,25
+TT1490NC4,14 x 90 Hex W/F T17 W/Neo CL:4  (100),Box,,,100
+TT1490NC4J,14 x 90 Hex W/F Timber T17 W/Seal CL:4 Jar 25,Jar,,,25
+TTB14100C2,14 x 100 Bugle Head Batten Screws T17 Z/C (100),Box,,,100
+TTB14100C4,14 x 100 Bugle Head Batten Purlin Screws T17 CL:4  (100),Box,,,100
+TTB14100C4J,14 x 100 Bugle Head Batten Purlin Screws T17 CL:4 Jar 25,Jar,,,25
+TTB14125C4,14 x 125 Bugle Head Batten Screws T17 CL:4  (100),Box,,,100
+TTB14150C4,14 x 150 Bugle Head Batten Screws T17  CL:4  (100),Box,,,100
+TTB1450C2,14 x 50 Bugle Head Batten Screws T17 Z/C   (200),Box,,,200
+TTB1450C2J,14 x 50 Bugle Head Batten Screws T17 Z/C Jar 25,Jar,,,25
+TTB1450C4,14 x 50 Bugle Head Batten Screws T17 CL:4 (100),Box,,,100
+TTB1475C4,14 x 75 Bugle Head Batten Screws T17 CL:4 (100),Box,,,100
+WM1021Z,M10 x 21 Washers Z/P (200),Each,200,,
+WM1224Z,M12 x 24 Washers Z/P (200),Each,200,,
+WM6125Z,M6 x 12.5  x 1.2  Washers Z/P (200),Each,200,,
+WM816Z,M8 x 16 x 1.6 Washers Z/P (200),Each,200,,
+WM10G,M10 x 25 x 3  Round Washers Heavy Galv (100),Each,100,,
+WM12G,M12 x 28 x 3  Round Washers Heavy Galv (100),Each,100,,
+WM16G,M16 x 34 x 3  Round Washers Heavy Galv (50),Each,50,,
+WM6G,M6 x 19 x 3 Round Washers Heavy Galv (100),Each,100,,
+WM8G,M8 x 22 x 3 Round Washers Heavy Galv  100,Each,100,,
+WQM10G,M10 x 50 x 50 x 3 Washers Square Galv  (50),Each,50,,
+WQM12G,M12 x 50 x 50 x 3 Washers Square Galv (50),Each,50,,
+WQM16G,M16 x 50 x 50 x 3 Washers Square Galv (50),Each,50,,
+WQM20G,M20 x 50 x 50 x 3 Washers Square Galv (50),Each,50,,
+PROSFQX832,8g x 32       Surefast CSK SQDR S/S   (30),Jar,,,30
+PROSFQX840,8g x 40       Surefast CSK SQDR S/S   (20),Jar,,,20
+PROSTPQX1025,10g x 25 Pan Square S/S S/Tap (35),Jar,,,35
+PROSFQX825,8g x 25       Surefast CSK SQDR S/S   (30),Jar,,,30
+PROSFQX850,8g x 50       Surefast CSK SQDR S/S   (15),Jar,,,15
+PROSTPP812Z,8g x 12 Pan Pozi S/Tap Z/P (50),Jar,,,50
+PROSTPQX812,8g x 12 Pan Square S/S S/Tap (40),Jar,,,40
+PROSFQX1050,10g x 50     Surefast CSK SQDR S/S   (15),Jar,,,15
+PROSTPQX612,6g x 12 Pan Square S/S S/Tap (40),Jar,,,40
+PROSTPQX825,8g x 25 Pan Square S/S S/Tap (40),Jar,,,40
+PROTF1025Z,10g x 25 CSK Pozi T/F Z/P (40),Jar,,,40
+PROSFQ10100CL3,10g x 100   Surefast CSK SQDR CL3   (20),Jar,,,20
+PROSFQ850CL3,8g x 50       Surefast CSK SQDR CL3   (30),Jar,,,30
+PROSFQ865CL3,8g x 65       Surefast CSK SQDR CL3   (30),Jar,,,30
+PROSFQX10100,10g x 100   Surefast CSK SQDR S/S   (10),Jar,,,10
+PROSFQX1040,10g x 40     Surefast CSK SQDR S/S   (15),Jar,,,15
+PROSFQX820,8g x 20       Surefast CSK SQDR S/S   (30),Jar,,,30
+PROSTPQX620,6g x 20 Pan Square S/S S/Tap (40),Jar,,,40
+PROSTPQX816,8g x 16 Pan Square S/S S/Tap (40),Jar,,,40
+PROSTPQX820,8g x 20 Pan Square S/S S/Tap (40),Jar,,,40
+PROTF620Z,6g x 20 CSK Pozi T/F Z/P (50),Jar,,,50
+PROTF820Z,8g x 20 CSK Pozi T/F Z/P (50),Jar,,,50
+PROTF825Z,8g x 25 CSK Pozi T/F Z/P (50),Jar,,,50
+PROTK1220NC4,12-14 x 20 Hex W/F Tek With Neo CL:4 (25),Jar,,,25
+PROGBM640Z,M6 x 40 Gutter Bolt/Nut/Washer (15),Jar,,,15
+PROHFQ820Z#2,8g x 20 Hinge Fast CSK SQDR Z/P #2 (50),Jar,,,50
+PROHFQ825Z#2,8g x 25 Hinge Fast CSK SQDR Z/P #2 (50),Jar,,,50
+PROR73STST44,3.2 x 9.9mm Domed Stainless 4.4 Rivets (20),Jar,,,20
+PROR73STST53,4.0 x 8.6mm Domed Stainless 5.3 Rivets (20),Jar,,,20
+PROSFQ832CL3,8g x 32       Surefast CSK SQDR CL3   (50),Jar,,,50
+PROSTPP820Z,8g x 20 Pan Pozi S/Tap Z/P (50),Jar,,,50
+PROSTPQX1016,10g x 16 Pan Square S/S S/Tap (35),Jar,,,35
+PROSTPQX1040,10g x 40 Pan Square S/S S/Tap (30),Jar,,,30
+PROSTPQX1050,10g x 50 Pan Square S/S S/Tap (30),Jar,,,30
+PROSTPQX832,8g x 32 Pan Square S/S S/Tap (40),Jar,,,40
+PROTF1032Z,10g x 32 CSK Pozi T/F Z/P (40),Jar,,,40
+PROTF616Z,6g x 16 CSK Pozi T/F Z/P (50),Jar,,,50
+PROTF625Z,6g x 25 CSK Pozi T/F Z/P (50),Jar,,,50
+PROTF832Z,8g x 32 CSK Pozi T/F Z/P (40),Jar,,,40
+PROTK1016NC4,10-16 x 16 Hex W/F Tek With Neo CL:4 (25),Jar,,,25
+PROTK1225NC4,12-14 x 25 Hex W/F Tek With Neo CL:4 (20),Jar,,,20
+PROTK1235NC4,12-14 x 35 Hex W/F Tek With Neo CL:4  (20),Jar,,,20
+PROTTB14100C4,14 x 100 Bugle Head Batten Screws T17 CL:4 (10),Jar,,,10
+PROTTB1475C4,14 x 75 Bugle Head Batten Screws T17 CL:4 (15),Jar,,,15
+PROGBM625Z,M6 x 25 Gutter Bolt/Nut/Washer (18),Jar,,,18
+PROHFQ616Z#2,6g x 16 Hinge Fast CSK SQDR Z/P #2 (50),Jar,,,50
+PROSFQ1075CL3,10g x 75     Surefast CSK SQDR CL3   (25),Jar,,,25
+PROSFQ825CL3,8g x 25       Surefast CSK SQDR CL3   (50),Jar,,,50
+PROSFQ840,8g x 40       Surefast CSK SQDR Z/C   (40),Jar,,,40
+PROSFQ840CL3,8g x 40       Surefast CSK SQDR CL3   (40),Jar,,,40

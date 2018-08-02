@@ -13,9 +13,11 @@ import faBars from '@fortawesome/fontawesome-free-solid/faBars'
 import faAngleDoubleLeft from '@fortawesome/fontawesome-free-solid/faAngleDoubleLeft'
 
 import Settings from '../settings'
-import { capitalizeWord } from './helpers/capitalize-word'
+import { lowerCaseDescriptions } from './helpers/descriptions'
+import { readableFileSizeString } from './helpers/filesize'
 import { createOuterColumns, setOuters } from './actions/outers'
 import { createMinMaxColumns, setMinMax } from './actions/min-max'
+import { trialRun } from './actions/trial'
 import { setUnits } from './actions/units'
 import { createMSLColumns, processMSL } from './actions/msl'
 import ModalWrapper from './modal-wrapper'
@@ -59,7 +61,7 @@ export default class Parser extends React.Component {
     this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
 
-    this.getMSL = this.getMSL.bind(this)
+    this.doTrialRun = this.doTrialRun.bind(this)
   }
 
   componentWillMount() {
@@ -249,9 +251,8 @@ export default class Parser extends React.Component {
     setMinMax(this.state)
   }
 
-  getMSL() {
-    this.updateHeaders(createMSLColumns(this.state))
-    processMSL(this.state)
+  doTrialRun() {
+    trialRun()
   }
 
   removeEmptyProducts() {
@@ -278,36 +279,12 @@ export default class Parser extends React.Component {
   }
 
   updateDescription() {
-    let desc = "Description"
-    if (this.state.headers.indexOf(desc) === -1) desc = "MSL Description"
-    if (this.state.headers.indexOf(desc) !== -1) {
-      var description, result
-      this.state.data.forEach(
-        o => {
-          result = ''
-          description = o[desc]
-          description.split(' ').forEach(
-            s => {
-              result += capitalizeWord(s) + ' '
-            }
-          )
-          o[desc] = result.trim()
-        }
-      )
-    }
+    const newData = lowerCaseDescriptions(this.state)
+    this.setState({data: newData})
   }
 
   getReadableFileSizeString(fileSizeInBytes) {
-    /*
-     * from https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string
-     */
-    var i = -1;
-    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
-    do {
-      fileSizeInBytes = fileSizeInBytes / 1024;
-      i++;
-    } while (fileSizeInBytes > 1024)
-    return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+    return readableFileSizeString(fileSizeInBytes)
   }
 
   render() {
@@ -350,6 +327,9 @@ export default class Parser extends React.Component {
               >
                 <FontAwesomeIcon icon={ faBars } color="navy" />
               </button>
+              <div className="ml2 dib">
+                <strong>{ file.name }</strong>
+              </div>
             </div>
         }
         { isLeftColumnOpen &&
@@ -398,8 +378,8 @@ export default class Parser extends React.Component {
                   </li>
                   <li className="">
                     <FileAction
-                      action={ this.getMSL }
-                    >process MSL
+                      action={ this.doTrialRun }
+                    >Trial
                     </FileAction>
                   </li>
                 </ul>
