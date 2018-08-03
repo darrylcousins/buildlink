@@ -9,7 +9,7 @@ export default class FileMeta extends React.Component {
   render() {
 
     return (
-      <div className="br2 ba b--black-20 bg-white pa0 mb1 bg-animate hover-bg-light-gray border-box">
+      <div className="br2 ba b--black-20 bg-white pa0 mb2 bg-animate hover-bg-light-gray border-box">
         <div className="b dark-gray bb b--black-20 w-100 pa1 ma0">
           <span>File info:</span>
         </div>

@@ -54,7 +54,7 @@ export default class FileDownload extends React.Component {
   /*
    * the action after validation
    */
-    const { closeModal, data } = this.props
+    const { closeModal, data, headers } = this.props
     const { rowsPerFile,
         fileCount,
         includeHeaders,
@@ -80,6 +80,7 @@ export default class FileDownload extends React.Component {
           fileData = result[key]
           csv = Papa.unparse(
             fileData, {
+              quotes: false,
               header: includeHeaders
             }
           )
@@ -90,8 +91,11 @@ export default class FileDownload extends React.Component {
       zip.generateAsync({ type: "blob" })
         .then( blob => DownloadFile(blob, `${ folderName }.zip`) )
     } else if (fileCount === 1) {
+      console.log(data)
+      console.log(headers)
       csv = Papa.unparse(
         data, {
+          fields: headers,
           quotes: false, // eaccounts don't deal with quotes
           header: includeHeaders
         })

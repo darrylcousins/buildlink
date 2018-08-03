@@ -17,6 +17,8 @@ import { lowerCaseDescriptions } from './helpers/descriptions'
 import { readableFileSizeString } from './helpers/filesize'
 import { createOuterColumns, setOuters } from './actions/outers'
 import { createMinMaxColumns, setMinMax } from './actions/min-max'
+import { createStockColumns } from './actions/products'
+import { filterRows } from './actions/filter'
 import { trialRun } from './actions/trial'
 import { setUnits } from './actions/units'
 import { createMSLColumns, processMSL } from './actions/msl'
@@ -36,6 +38,11 @@ export default class Parser extends React.Component {
         fields: []
       },
       headers: [],
+      supplierFile_data: [],
+      supplierFile_meta: {
+        fields: []
+      },
+      supplierFile_headers: [],
       file: {},
       isModalOpen: false,
       isLeftColumnOpen: true,
@@ -47,9 +54,11 @@ export default class Parser extends React.Component {
     this.loadFile = this.loadFile.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
     this.updateDescription = this.updateDescription.bind(this)
+    this.filterByDescription = this.filterByDescription.bind(this)
     this.removeEmptyProducts = this.removeEmptyProducts.bind(this)
     this.calculateMinMax = this.calculateMinMax.bind(this)
     this.createOuterQtyColumns = this.createOuterQtyColumns.bind(this)
+    this.createNormalStockColumns = this.createNormalStockColumns.bind(this)
     this.toggleLeftColumn = this.toggleLeftColumn.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -60,6 +69,8 @@ export default class Parser extends React.Component {
     this.loadFile = this.loadFile.bind(this)
     this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
+    this.loadSupplierFile = this.loadSupplierFile.bind(this)
+    this.loadSupplierData = this.loadSupplierData.bind(this)
 
     this.doTrialRun = this.doTrialRun.bind(this)
   }
@@ -75,12 +86,10 @@ export default class Parser extends React.Component {
      * meta stores field names
      * header stores user selectable field names
     */
-    const data = result.data
-    const meta = result.meta
     this.setState({
-      data: data,
-      meta: meta,
-      headers: meta.fields
+      data: result.data,
+      meta: result.meta,
+      headers: result.meta.fields
     })
   }
 
@@ -131,12 +140,15 @@ export default class Parser extends React.Component {
     })
   }
 
-  loadSupplierData(result) {
+  loadsupplierData(result) {
     /*
      * load data from csv file
     */
-    const data = result.data
-    const meta = result.meta
+    this.setState({
+      supplierFile_data: result.data,
+      supplierFile_meta: result.meta,
+      supplierFile_headers: result.meta.fields,
+    })
   }
 
   loadSupplierFile() {
@@ -222,15 +234,21 @@ export default class Parser extends React.Component {
     /*
      * update user selectable fields of csv file
     */
-    this.setState({ headers: value.map( o => o.value )})
+    const headers = value.map( o => o.value )
+    this.setState({ headers: headers})
 
     // need to note if this is a new column and update data accordingly
     // find values not in original file headers
+    // more than that it is necessary to reassign the data to order columns
+    // else on export the original column order is retained
+    // better if I could extract data hash from react-table cause it does it well
     const { meta } = this.state
     const newHeaders = value
       .map( (n) => n.value )
       .filter( (n) => !meta.fields.includes(n) )
+
     // map to data and add new fields if missing
+    // change data in place
     this.state.data.forEach(
       o => {
         newHeaders.forEach(
@@ -238,15 +256,42 @@ export default class Parser extends React.Component {
         )
       }
     )
+
+    // now update column order so download works
+    // TODO could I do this in the above forEach?
+    let newData = []
+    this.state.data.forEach(
+      o => {
+        var row = new Object()
+        headers.forEach(
+          header => {
+            //row.set(header, o[header])
+            row[header] = o[header]
+            console.log(header)
+          }
+        )
+        newData.push(row)
+      }
+    )
+    this.setState({ data: newData })
   }
 
   createOuterQtyColumns() {
+    // Format is Stock Code, Branch, Min, Max
     this.updateHeaders(createOuterColumns(this.state))
     setOuters(this.state)
     setUnits(this.state)
   }
 
+  createNormalStockColumns() {
+    // Format is Stock Code, Short Desc, UOM, Group, Supplier, Franchise, Margin Grid, Unit Cost
+    this.updateHeaders(createStockColumns(this.state))
+  }
+
   calculateMinMax() {
+    /*
+     * no longer in use
+     */
     this.updateHeaders(createMinMaxColumns(this.state))
     setMinMax(this.state)
   }
@@ -256,6 +301,9 @@ export default class Parser extends React.Component {
   }
 
   removeEmptyProducts() {
+    /*
+     * no longer in use
+     */
     const filterKeys = [
       "Jul2018 Qty Start",
       "Ytd Qty Sold",
@@ -280,6 +328,11 @@ export default class Parser extends React.Component {
 
   updateDescription() {
     const newData = lowerCaseDescriptions(this.state)
+    this.setState({data: newData})
+  }
+
+  filterByDescription() {
+    const newData = filterRows("Description", "DTS", this.state)
     this.setState({data: newData})
   }
 
@@ -351,29 +404,27 @@ export default class Parser extends React.Component {
                   rows={ data.length }
                   size={ this.getReadableFileSizeString(file.size) }
                 />
-                <ul className="pl0 list">
+                <strong className="db">Filter Data</strong>
+                <ul className="pl0 list mt0">
                   <li className="">
                     <FileAction
-                      action={ this.removeEmptyProducts }
-                    >Remove empty product lines
+                      action={ this.filterByDescription }
+                    >Filter by "DTS" in description
                     </FileAction>
                   </li>
+                </ul>
+                <strong className="db">Set Columns</strong>
+                <ul className="pl0 list mt0">
                   <li className="">
                     <FileAction
-                      action={ this.updateDescription }
-                    >Lower case descriptions
-                    </FileAction>
-                  </li>
-                  <li className="">
-                    <FileAction
-                      action={ this.calculateMinMax }
-                    >Calculate min/max
+                      action={ this.createNormalStockColumns }
+                    >Stock columns
                     </FileAction>
                   </li>
                   <li className="">
                     <FileAction
                       action={ this.createOuterQtyColumns }
-                    >Outer qty columns
+                    >Outer columns
                     </FileAction>
                   </li>
                   <li className="">
