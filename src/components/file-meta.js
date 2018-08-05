@@ -18,8 +18,10 @@ export default class FileMeta extends React.Component {
           <dd className="ml0">{ this.props.filename }</dd>
           <dt className="b">Rows</dt>
           <dd className="ml0">{ this.props.rows }</dd>
+          { /*
           <dt className="b">Size</dt>
           <dd className="ml0">{ this.props.size }</dd>
+          */ }
         </dl>
       </div>
     )

@@ -1,99 +1,63 @@
 /**
- * @file Provides methods for extracting msl outers from price list
+ * @file Provides methods for matching stock to msl stock
  * @author Darryl Cousins <darryljcousins@gmail.com>
  */
 
-const COUNT_RE = /[(]\b([A-Z/]*)[ ]?([0-9]+)[ ]?[A-Z]*\b[)]/
-const UOM_RE = /([A-Z]*)[ ]?([0-9]+)[ ]?[A-Z]*$/
+const MATCHES = [
+  ["galv", "coach", "screw"],
+  ["galv", "screw", "bolt", "hex"],
+  ["galv", "sleeve", "anchor", "hex"],
+  ["galv", "through", "bolt"],
+  ["galv", "eng", "bolt" ],
+  ["csk", "(?:zinc|z\/c)", "pozi"],
+  ["csk", "(?:zinc|z\/c)", "(?:sqdr|square)"],
+  ["(?:cl:?4)", "hex", "tek"]
+]
 
-export const createMSLColumns = function(state) {
-  // check for fields to populate - create if missing
-  const addFields = [
-    "UOM",
-    "Outer Qty",
-    "Outer Desc",
-    "Unit Size",
-  ]
-  const resultColumns = ["MSL Code", "MSL Description"]
-  resultColumns.push(...addFields)
-  let values = []
-  resultColumns.forEach(
-    field => values.push({'label': field, 'value': field })
-  )
-  return values
-}
+export const mslMatchStock = function(state) {
+  const { data, supplierFile_data } = state
+  console.log('msl match stack', state)
 
-export const processMSL = function(state) {
-  /*
-   * Try to extract unit of measurement and unit count and outer description
-   * and quantity from the msl description
-   */
-  const { data } = state
-  const desc = "MSL Description"
-  const code = "MSL Code"
-  const outer = "Outer Qty"
-  const unit = "UOM"
-  const unit_size = "Unit Size"
-  const newData = [] // save to filter data
-  data.forEach(
-    (row, idx) => {
-      let outerDesc, match, outerQty
-      if (row[desc].toLowerCase().includes("no barcode")) {
-        data.splice(idx, 1) // remove row in data
-        return
-      }
-      if (row[code].endsWith("T")) {
-        data.splice(idx, 1) // remove row in data
-        return
-      }
-      match = row[desc].match(COUNT_RE)
-      if (match !== null) {
-        outerDesc = match[1]
-        outerQty = match[2]
-        if (row[code].startsWith("TT") && outerDesc === "") {
-          outerDesc = "BOX"
+  const items = [6, 8, 10, 12, 14, 16]
+
+  let result = []
+
+  let regex, newData, supplierData, match, supplierMatch
+  items.forEach(
+    item => {
+      regex = new RegExp(`[A-Z](${ String(item) })([0-9]+)`)
+      newData = data
+        .filter( row => regex.test(row["Code"]) )
+      newData.map(
+        row => {
+          match = row["Code"].match(regex)
+          supplierData = supplierFile_data
+            .filter( supplierRow => {
+              supplierMatch = supplierRow["MSL Code"].match(regex)
+              if (supplierMatch && supplierMatch[1] === match[1] && supplierMatch[2] === match[2]) {
+                return true
+              }
+            }
+          )
+          if (supplierData.length === 0 ) {
+            console.log("No Matches")
+            result.push(row)
+            return
+          }
+          if (supplierData.length === 1 ) {
+            console.log(row["Description"], supplierData[0]["MSL Description"])
+            row["MSL Description"] = supplierData[0]["MSL Description"]
+            for (var prop in supplierData[0]) {
+              if (supplierData[0].hasOwnProperty(prop) && row.hasOwnProperty(prop)) row[prop] = supplierData[0][prop]
+            }
+            result.push(row)
+            return
+          }
+          //console.log(row["Code"], row["Description"])
+          //console.log(supplierData.map(row => row["MSL Code"]+" "+row["MSL Description"]))
+          result.push(row)
         }
-        if (row[code].startsWith("PRO") && outerDesc === "") {
-          outerDesc = "JAR"
-        }
-      } else {
-        match = row[desc].match(UOM_RE)
-        if (match !== null) {
-          outerDesc = match[1].length > 1 ? match[1] : ""
-          outerQty = match[2]
-        }
-      }
-      if (match !== null) {
-        if (row[code] === null) console.log(match)
-      }
-      if (row[code].includes("GYPCOL")) {
-        if (row[desc].toLowerCase().includes("collated")) {
-          outerDesc = "COLLATED"
-          if (!outerQty) outerQty = "1000"
-        }
-      }
-      if (row[code].endsWith("J") || row[code].endsWith("P") || row[code].endsWith("P100") || row[code].endsWith("BR100")) {
-        if (!outerDesc) {
-          outerDesc = "JAR"
-        }
-      }
-      if (outerDesc) {
-        let outerDescLower = outerDesc.toLowerCase()
-        if (outerDescLower === "ctn")  outerDesc = "BOX"
-        if (outerDescLower === "pkt")  outerDesc = "BOX"
-        if (outerDescLower === "bkt")  outerDesc = "BOX"
-        if (outerDescLower === "jars") outerDesc = "JAR"
-        if (outerDescLower === "jar") outerDesc = "JAR"
-        if (outerDescLower === "galv") outerDesc = ""
-      }
-      row[unit] = outerDesc ? outerDesc.charAt(0).toUpperCase() + outerDesc.slice(1).toLowerCase() : "Each"
-      if (row[unit] === "Each") {
-        row[outer] = outerQty
-        row[unit_size] = ""
-      } else {
-        row[outer] = ""
-        row[unit_size] = outerQty
-      }
+      )
     }
   )
 }

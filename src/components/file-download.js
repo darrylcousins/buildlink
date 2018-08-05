@@ -91,8 +91,6 @@ export default class FileDownload extends React.Component {
       zip.generateAsync({ type: "blob" })
         .then( blob => DownloadFile(blob, `${ folderName }.zip`) )
     } else if (fileCount === 1) {
-      console.log(data)
-      console.log(headers)
       csv = Papa.unparse(
         data, {
           fields: headers,

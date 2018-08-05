@@ -21,7 +21,7 @@ import { createStockColumns } from './actions/products'
 import { filterRows } from './actions/filter'
 import { trialRun } from './actions/trial'
 import { setUnits } from './actions/units'
-import { createMSLColumns, processMSL } from './actions/msl'
+import { mslMatchStock } from './actions/msl'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
 import FileAction from './file-action'
@@ -38,12 +38,13 @@ export default class Parser extends React.Component {
         fields: []
       },
       headers: [],
+      file: {},
       supplierFile_data: [],
       supplierFile_meta: {
         fields: []
       },
       supplierFile_headers: [],
-      file: {},
+      supplierFile_file: {},
       isModalOpen: false,
       isLeftColumnOpen: true,
       renderModalName: '',
@@ -71,6 +72,7 @@ export default class Parser extends React.Component {
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
     this.loadSupplierFile = this.loadSupplierFile.bind(this)
     this.loadSupplierData = this.loadSupplierData.bind(this)
+    this.mslStockUpdate = this.mslStockUpdate.bind(this)
 
     this.doTrialRun = this.doTrialRun.bind(this)
   }
@@ -140,7 +142,7 @@ export default class Parser extends React.Component {
     })
   }
 
-  loadsupplierData(result) {
+  loadSupplierData(result) {
     /*
      * load data from csv file
     */
@@ -155,6 +157,7 @@ export default class Parser extends React.Component {
     let file = document.getElementById('fileinput').files[0]
     this.parseSupplierFile(file)
     this.closeModal()
+    this.setState({ supplierFile_file: file} )
   }
 
   toggleLeftColumn() {
@@ -206,20 +209,18 @@ export default class Parser extends React.Component {
 
   renderDownloadModal() {
     /*
-     * filter data by selected headers before passing to download
+     * filter and order data by selected headers before passing to download
      */
     const { data, headers, file } = this.state
-    const result = data.map(
-      row => ( Object.keys(row)
-        .filter(key => headers.includes(key))
-        .reduce((obj, key) => {
-          return {
-            ...obj,
-            [key]: row[key]
-          };
-        }, {})
-      )
+    let result = []
+    data.forEach(
+      o => {
+        var row = {}
+        headers.forEach( header =>  row[header] = o[header] )
+        result.push(row)
+      }
     )
+
     return (
       <FileDownload
         data={ result }
@@ -239,9 +240,6 @@ export default class Parser extends React.Component {
 
     // need to note if this is a new column and update data accordingly
     // find values not in original file headers
-    // more than that it is necessary to reassign the data to order columns
-    // else on export the original column order is retained
-    // better if I could extract data hash from react-table cause it does it well
     const { meta } = this.state
     const newHeaders = value
       .map( (n) => n.value )
@@ -256,24 +254,6 @@ export default class Parser extends React.Component {
         )
       }
     )
-
-    // now update column order so download works
-    // TODO could I do this in the above forEach?
-    let newData = []
-    this.state.data.forEach(
-      o => {
-        var row = new Object()
-        headers.forEach(
-          header => {
-            //row.set(header, o[header])
-            row[header] = o[header]
-            console.log(header)
-          }
-        )
-        newData.push(row)
-      }
-    )
-    this.setState({ data: newData })
   }
 
   createOuterQtyColumns() {
@@ -340,8 +320,19 @@ export default class Parser extends React.Component {
     return readableFileSizeString(fileSizeInBytes)
   }
 
+  mslStockUpdate() {
+    mslMatchStock(this.state)
+  }
+
   render() {
-    const { data, meta, file, headers, isLeftColumnOpen } = this.state
+    const {
+      data,
+      meta,
+      file,
+      headers,
+      isLeftColumnOpen,
+      supplierFile_data
+    } = this.state
     // get currently selected headers for datagrid
     const columns = headers.map(
       header => (
@@ -387,6 +378,7 @@ export default class Parser extends React.Component {
         }
         { isLeftColumnOpen &&
           <div className={ Settings.style.colLeft }>
+            { /* close button for left column */ }
             <div className={ `${ this.isDataLoaded() ? "db" : "dn" } tl nt3` }>
               <button
                 type="button"
@@ -399,12 +391,14 @@ export default class Parser extends React.Component {
             </div>
             { data.length > 0 &&
               <div>
+                { /* display file meta info */ }
                 <FileMeta
                   filename={ file.name }
                   rows={ data.length }
                   size={ this.getReadableFileSizeString(file.size) }
                 />
                 <strong className="db">Filter Data</strong>
+                { /* single file actions */ }
                 <ul className="pl0 list mt0">
                   <li className="">
                     <FileAction
@@ -413,7 +407,22 @@ export default class Parser extends React.Component {
                     </FileAction>
                   </li>
                 </ul>
+                { supplierFile_data.length >= 0 &&
+                  <div>
+                    <strong className="db">Match Files</strong>
+                    { /* dual file actions */ }
+                    <ul className="pl0 list mt0">
+                      <li className="">
+                        <FileAction
+                          action={ this.mslStockUpdate }
+                        >MSL stock update
+                        </FileAction>
+                      </li>
+                    </ul>
+                  </div>
+                }
                 <strong className="db">Set Columns</strong>
+                { /* actions to set header columns */ }
                 <ul className="pl0 list mt0">
                   <li className="">
                     <FileAction
@@ -427,16 +436,19 @@ export default class Parser extends React.Component {
                     >Outer columns
                     </FileAction>
                   </li>
+                  { /*
                   <li className="">
                     <FileAction
                       action={ this.doTrialRun }
                     >Trial
                     </FileAction>
                   </li>
+                  */ }
                 </ul>
               </div>
             }
             <div>
+              { /* buttons */ }
               { (this.isDataLoaded()) &&
               <div>
                 <button className="bw0 br3 bg-green pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-green"
