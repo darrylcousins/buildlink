@@ -19,8 +19,8 @@ const Settings = {
     "inlineLink": "navy link dim mb2 bb",
 
     //*** columns ***//
-    "colLeft": "fl w-100 w-20-ns pr4-ns",
-    "colRight": "fl w-100 w-80-ns",
+    "colLeft": "fl w-100 w-third-ns pr4-ns",
+    "colRight": "fl w-100 w-two-thirds-ns",
 
     //*** forms ***//
 

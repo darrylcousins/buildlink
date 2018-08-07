@@ -349,18 +349,6 @@ export default class Parser extends React.Component {
     )
     return (
       <div>
-        <div className="pb3">
-          { data.length > 0 &&
-            <CreatableSelect
-              closeMenuOnSelect={ true }
-              components={ makeAnimated() }
-              options={ options }
-              value={ values }
-              onChange={ this.updateHeaders }
-              isMulti
-            />
-          }
-        </div>
         { !isLeftColumnOpen &&
             <div className="db tl nt3">
               <button
@@ -451,26 +439,26 @@ export default class Parser extends React.Component {
               { /* buttons */ }
               { (this.isDataLoaded()) &&
               <div>
-                <button className="bw0 br3 bg-green pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-green"
+                <button className="w-100 bw0 br3 bg-green pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-green"
                   onClick={ () => this.openModal('renderDownloadModal') }>
                   Download result
                 </button>
-                <button className="bw0 br3 bg-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-blue"
+                <button className="w-100 bw0 br3 bg-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-blue"
                   onClick={ this.reloadCurrentFile }
                   >Reload file
                 </button>
-                <button className="bw0 br3 bg-gold pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-orange"
+                <button className="w-100 bw0 br3 bg-gold pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-orange"
                   onClick={ this.clearData }>
                   Clear data
                 </button>
               </div>
               }
-              <button className="bw0 br3 bg-dark-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-navy"
+              <button className="w-100 bw0 br3 bg-dark-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-navy"
                 onClick={ () => this.openModal('renderUploadModal') }
                 >Upload file
               </button>
               { (this.isDataLoaded()) &&
-                <button className="bw0 br3 bg-red pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-red"
+                <button className="w-100 bw0 br3 bg-red pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-red"
                   onClick={ () => this.openModal('renderSupplierUploadModal') }>
                   Upload Supplier File
                 </button>
@@ -479,7 +467,19 @@ export default class Parser extends React.Component {
           </div>
         }
         { (this.isDataLoaded()) &&
-          <div className={ `fl w-${ isLeftColumnOpen ? "80" : "100" }` }>
+          <div className={ `fl w-${ isLeftColumnOpen ? "two-thirds-ns w-100" : "100" }` }>
+            <div className="pb1">
+              { data.length > 0 &&
+                <CreatableSelect
+                  closeMenuOnSelect={ true }
+                  components={ makeAnimated() }
+                  options={ options }
+                  value={ values }
+                  onChange={ this.updateHeaders }
+                  isMulti
+                />
+              }
+            </div>
             <ReactTable
               data={ data }
               columns={ columns }

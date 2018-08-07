@@ -30,7 +30,7 @@ export default () =>
       <div className="w-100 sans-serif">
         <div className="center w85">
           <header>
-            <div className="w-100 ph4 pt3 pb1 bg-white">
+            <div className="w-100 pa2 ph2-ns pt3-ns pb1 bg-white">
               <div className="db dt-ns mw9 center w-100">
                 <div className="db dtc-ns v-mid tl w-50">
                   <Link to="/" className="f5 f4-ns fw6 mt0 mb1 link black-70 dib" title="Home">
@@ -56,7 +56,7 @@ export default () =>
               </div>
             </div>
           </header>
-          <div className="ph4">
+          <div className="ph2-ns">
             <div className="cf mw9 tc-m">
               <div className="pb2 pb3-ns pt2 mt0 black-70">
                 <div className="ph1 pv1 background-gray tl">

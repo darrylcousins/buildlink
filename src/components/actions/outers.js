@@ -6,6 +6,7 @@
 export const createOuterColumns = function(state) {
   // check for fields to populate - create if missing
   const addFields = [
+    "MSL Code",
     "MSL Description",
     "UOM",
     "Unit Size",
@@ -14,7 +15,7 @@ export const createOuterColumns = function(state) {
     "Order in Outers",
     "Use Outers on Orders",
   ]
-  const resultColumns = ["Code", "Description", "Last Supplier"]
+  const resultColumns = ["Code", "Description"]
   resultColumns.push(...addFields)
   let values = []
   resultColumns.forEach(
