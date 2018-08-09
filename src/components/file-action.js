@@ -11,11 +11,10 @@ export default class FileActions extends React.Component {
     const { children, action } = this.props
 
     return (
-      <a href="#"
-        className="link pa1 f6 fw1 navy hover-bg-gray hover-white dib pointer br2"
+      <button className="w-100 pointer tl br2 ba bg-black-10 black-70 mv1 pa1 pl3 bg-animate hover-bg-light-gray border-box"
         onClick={ action }>
         { children }
-      </a>
+      </button>
     )
   }
 }

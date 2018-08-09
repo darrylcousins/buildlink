@@ -16,12 +16,15 @@ import Settings from '../settings'
 import { lowerCaseDescriptions } from './helpers/descriptions'
 import { readableFileSizeString } from './helpers/filesize'
 import { createOuterColumns, setOuters } from './actions/outers'
+import { createCodeColumns } from './actions/codes'
+import { createDescriptionColumns } from './actions/description'
 import { createMinMaxColumns, setMinMax } from './actions/min-max'
 import { createStockColumns } from './actions/products'
 import { filterRows } from './actions/filter'
 import { trialRun } from './actions/trial'
 import { setUnits } from './actions/units'
 import { mslMatchStock } from './actions/msl'
+import { mslMatchCode } from './actions/msl-code'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
 import FileAction from './file-action'
@@ -57,9 +60,11 @@ export default class Parser extends React.Component {
     this.updateDescription = this.updateDescription.bind(this)
     this.filterByDescription = this.filterByDescription.bind(this)
     this.removeEmptyProducts = this.removeEmptyProducts.bind(this)
-    this.calculateMinMax = this.calculateMinMax.bind(this)
+    this.createUpdateMinMaxColumns = this.createUpdateMinMaxColumns.bind(this)
     this.createOuterQtyColumns = this.createOuterQtyColumns.bind(this)
     this.createNormalStockColumns = this.createNormalStockColumns.bind(this)
+    this.createUpdateCodeColumns = this.createUpdateCodeColumns.bind(this)
+    this.createUpdateDescriptionColumns = this.createUpdateDescriptionColumns.bind(this)
     this.toggleLeftColumn = this.toggleLeftColumn.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -268,12 +273,19 @@ export default class Parser extends React.Component {
     this.updateHeaders(createStockColumns(this.state))
   }
 
-  calculateMinMax() {
-    /*
-     * no longer in use
-     */
+  createUpdateCodeColumns() {
+    // Format is Desc, Last Supplier, Supplier Code, Stock Code, Barcode
+    this.updateHeaders(createCodeColumns(this.state))
+  }
+
+  createUpdateDescriptionColumns() {
+    // Format is Code, Desc, Desc1 ...
+    this.updateHeaders(createDescriptionColumns(this.state))
+  }
+
+  createUpdateMinMaxColumns() {
+    // Format is Code, Min, Max ...
     this.updateHeaders(createMinMaxColumns(this.state))
-    setMinMax(this.state)
   }
 
   doTrialRun() {
@@ -321,7 +333,7 @@ export default class Parser extends React.Component {
   }
 
   mslStockUpdate() {
-    mslMatchStock(this.state)
+    mslMatchCode(this.state)
   }
 
   render() {
@@ -331,7 +343,8 @@ export default class Parser extends React.Component {
       file,
       headers,
       isLeftColumnOpen,
-      supplierFile_data
+      supplierFile_data,
+      supplierFile_file,
     } = this.state
     // get currently selected headers for datagrid
     const columns = headers.map(
@@ -364,8 +377,9 @@ export default class Parser extends React.Component {
               </div>
             </div>
         }
+        { /* Left Column */ }
         { isLeftColumnOpen &&
-          <div className={ Settings.style.colLeft }>
+          <div className="fl w-100 w-third-m w-20-l">
             { /* close button for left column */ }
             <div className={ `${ this.isDataLoaded() ? "db" : "dn" } tl nt3` }>
               <button
@@ -379,14 +393,43 @@ export default class Parser extends React.Component {
             </div>
             { data.length > 0 &&
               <div>
-                { /* display file meta info */ }
-                <FileMeta
-                  filename={ file.name }
-                  rows={ data.length }
-                  size={ this.getReadableFileSizeString(file.size) }
-                />
-                <strong className="db">Filter Data</strong>
-                { /* single file actions */ }
+                <strong className="db bt b--black-90 br2 black-70 ph2 pv1">Set Output Columns</strong>
+                { /* actions to set header columns */ }
+                <ul className="pl0 list mt0">
+                  <li className="">
+                    <FileAction
+                      action={ this.createUpdateDescriptionColumns }
+                    >Description update
+                    </FileAction>
+                  </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.createUpdateCodeColumns }
+                    >Supplier Code update
+                    </FileAction>
+                  </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.createUpdateMinMaxColumns }
+                    >Min/max update
+                    </FileAction>
+                  </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.createOuterQtyColumns }
+                    >Outer update
+                    </FileAction>
+                  </li>
+                  <li className="">
+                    <FileAction
+                      action={ this.createNormalStockColumns }
+                    >Stock import
+                    </FileAction>
+                  </li>
+                </ul>
+                { /* file actions */ }
+                { /*
+                <strong className="db black">Filter Data</strong>
                 <ul className="pl0 list mt0">
                   <li className="">
                     <FileAction
@@ -395,48 +438,28 @@ export default class Parser extends React.Component {
                     </FileAction>
                   </li>
                 </ul>
-                { supplierFile_data.length >= 0 &&
+                { supplierFile_data.length > 0 &&
                   <div>
-                    <strong className="db">Match Files</strong>
-                    { /* dual file actions */ }
+                    <strong className="db black">Match Files</strong>
                     <ul className="pl0 list mt0">
                       <li className="">
                         <FileAction
                           action={ this.mslStockUpdate }
-                        >MSL stock update
+                        >MSL code update
                         </FileAction>
                       </li>
                     </ul>
                   </div>
                 }
-                <strong className="db">Set Columns</strong>
-                { /* actions to set header columns */ }
-                <ul className="pl0 list mt0">
-                  <li className="">
-                    <FileAction
-                      action={ this.createNormalStockColumns }
-                    >Stock columns
-                    </FileAction>
-                  </li>
-                  <li className="">
-                    <FileAction
-                      action={ this.createOuterQtyColumns }
-                    >Outer columns
-                    </FileAction>
-                  </li>
-                  { /*
-                  <li className="">
-                    <FileAction
-                      action={ this.doTrialRun }
-                    >Trial
-                    </FileAction>
-                  </li>
-                  */ }
-                </ul>
+                */ }
               </div>
             }
             <div>
               { /* buttons */ }
+              <button className="w-100 bw0 br3 bg-dark-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-navy"
+                onClick={ () => this.openModal('renderUploadModal') }
+                >Upload file
+              </button>
               { (this.isDataLoaded()) &&
               <div>
                 <button className="w-100 bw0 br3 bg-green pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-green"
@@ -447,49 +470,65 @@ export default class Parser extends React.Component {
                   onClick={ this.reloadCurrentFile }
                   >Reload file
                 </button>
-                <button className="w-100 bw0 br3 bg-gold pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-orange"
-                  onClick={ this.clearData }>
-                  Clear data
-                </button>
-              </div>
-              }
-              <button className="w-100 bw0 br3 bg-dark-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-navy"
-                onClick={ () => this.openModal('renderUploadModal') }
-                >Upload file
-              </button>
-              { (this.isDataLoaded()) &&
                 <button className="w-100 bw0 br3 bg-red pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-red"
                   onClick={ () => this.openModal('renderSupplierUploadModal') }>
                   Upload Supplier File
                 </button>
+                <button className="w-100 bw0 br3 bg-gold pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-orange"
+                  onClick={ this.clearData }>
+                  Clear data
+                </button>
+                { /* display file meta info */ }
+                <div className="mt4">
+                  <FileMeta
+                    title = "File"
+                    filename={ file.name }
+                    rows={ data.length }
+                    size={ this.getReadableFileSizeString(file.size) }
+                  />
+                </div>
+                { this.state.supplierFile_file && this.state.supplierFile_data.length > 0 &&
+                  <div className="mt1">
+                    <FileMeta
+                      title = "Supplier File"
+                      filename={ supplierFile_file.name }
+                      rows={ supplierFile_data.length }
+                      size={ this.getReadableFileSizeString(supplierFile_file.size) }
+                    />
+                  </div>
+                }
+              </div>
               }
             </div>
           </div>
         }
+        { /* Right Column */ }
         { (this.isDataLoaded()) &&
-          <div className={ `fl w-${ isLeftColumnOpen ? "two-thirds-ns w-100" : "100" }` }>
-            <div className="pb1">
-              { data.length > 0 &&
-                <CreatableSelect
-                  closeMenuOnSelect={ true }
-                  components={ makeAnimated() }
-                  options={ options }
-                  value={ values }
-                  onChange={ this.updateHeaders }
-                  isMulti
+          <div className={ `fl ${ isLeftColumnOpen ? "w-two-thirds-m w-80-l" : "w-100" }` }>
+            <div className="pl3">
+              <div className="pb1">
+                { data.length > 0 &&
+                  <CreatableSelect
+                    closeMenuOnSelect={ true }
+                    components={ makeAnimated() }
+                    options={ options }
+                    value={ values }
+                    onChange={ this.updateHeaders }
+                    isMulti
+                  />
+                }
+              </div>
+              <ReactTable
+                data={ data }
+                columns={ columns }
+                defaultPageSize={ 17 }
+                filterable={ true }
+                defaultFilterMethod={ (filter, row, column) => {
+                  const id = filter.pivotId || filter.id
+                  return row[id] !== undefined ? String(row[id]).includes(filter.value) : true
+                } }
                 />
-              }
             </div>
-            <ReactTable
-              data={ data }
-              columns={ columns }
-              defaultPageSize={ 17 }
-              filterable={ true }
-              defaultFilterMethod={ (filter, row, column) => {
-                const id = filter.pivotId || filter.id
-                return row[id] !== undefined ? String(row[id]).includes(filter.value) : true
-              } }
-              />
           </div>
         }
         <ModalWrapper

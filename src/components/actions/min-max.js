@@ -6,8 +6,8 @@
 export const createMinMaxColumns = function(state) {
   // check for fields to populate - create if missing
   const addFields = [
-    "Min",
-    "Max",
+    "Min Qty",
+    "Max Qty",
   ]
   const resultColumns = ["Code", "Description", "Last Supplier"]
   resultColumns.push(...addFields)

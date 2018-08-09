@@ -6,8 +6,6 @@
 export const createOuterColumns = function(state) {
   // check for fields to populate - create if missing
   const addFields = [
-    "MSL Code",
-    "MSL Description",
     "UOM",
     "Unit Size",
     "Outer Qty",
