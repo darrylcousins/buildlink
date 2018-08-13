@@ -6,24 +6,32 @@ import React from 'react'
 
 export default class FileMeta extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.onClick = this.onClick.bind(this)
+  }
+
+  onClick() {
+    /*
+     * identifier is one of "stock", "supplier"
+     */
+    const { onClick, identifier } = this.props
+    onClick(identifier)
+  }
+
   render() {
-    const { title, filename, rows, size } = this.props
+    const { title, filename, rows, tableState, identifier } = this.props
 
     return (
-      <div className="br2 ba b--black-20 bg-white pa0 mb2 bg-animate hover-bg-light-gray border-box">
-        <div className="b dark-gray bb b--black-20 w-100 pa1 ma0">
-          <span>{ title } info:</span>
+      <div className="pointer br2 bg-white mb2 bg-animate hover-bg-light-gray border-box"
+           onClick={ this.onClick }>
+        <div className={ `${ tableState === identifier ? "bg-black-60 white" : "ba b--black-20" } pa1 br2` }>
+          <strong className="db">{ title }:</strong>
+          <div className="ml1">
+            <strong className="db">{ filename }</strong>
+            <small>({ rows } rows)</small>
+          </div>
         </div>
-        <dl className="f6 ma1 lh-copy">
-          <dt className="b">Name</dt>
-          <dd className="ml0">{ filename }</dd>
-          <dt className="b">Rows</dt>
-          <dd className="ml0">{ rows }</dd>
-          { /*
-          <dt className="b">Size</dt>
-          <dd className="ml0">{ size }</dd>
-          */ }
-        </dl>
       </div>
     )
   }
