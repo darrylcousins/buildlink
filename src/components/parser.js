@@ -333,7 +333,10 @@ export default class Parser extends React.Component {
     const identifier = this.state.tableState
     console.log('Filter', identifier, filtered, value)
     switch(identifier) {
-      case "stock": { this.setState({ stockFilter: filtered })
+      case "stock": {
+        this.setState({
+          stockFilter: filtered
+        })
         break
       }
       case "supplier": {
@@ -345,6 +348,7 @@ export default class Parser extends React.Component {
       default: {
         break
       }
+    }
   }
 
   onTableSortedChange(sorted, column, shiftKey) {
