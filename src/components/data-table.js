@@ -17,6 +17,8 @@ export default class DataTable extends React.Component {
       onChange,
       onFilteredChange,
       onSortedChange,
+      filtered,
+      sorted,
     } = this.props
     // get currently selected headers for datagrid
     const columns = headers.map(
@@ -54,6 +56,8 @@ export default class DataTable extends React.Component {
           filterable={ true }
           onFilteredChange={ onFilteredChange }
           onSortedChange={ onSortedChange }
+          sorted={ sorted() }
+          filtered={ filtered() }
           defaultFilterMethod={ (filter, row, column) => {
             const id = filter.pivotId || filter.id
             return row[id] !== undefined ? String(row[id]).includes(filter.value) : true

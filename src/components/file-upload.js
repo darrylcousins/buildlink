@@ -26,11 +26,15 @@ export default class FileUpload extends React.Component {
     document.getElementById('uploadButton').classList.add('dib')
   }
 
-  selectFile(files) {
+  selectFile() {
     /*
      * operates within 'Upload file' modal form
      */
     document.getElementById('fileinput').click()
+  }
+
+  componentDidMount() {
+    this.selectFile()
   }
 
   render() {

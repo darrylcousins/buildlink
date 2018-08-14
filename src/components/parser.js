@@ -19,6 +19,7 @@ import { createMinMaxColumns } from './actions/min-max'
 import { createStockColumns } from './actions/products'
 import { filterRows } from './actions/filter'
 import { setUnits } from './actions/units'
+import KiwiNails from './actions/kiwinails'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
 import FileDownload from './file-download'
@@ -45,8 +46,17 @@ export default class Parser extends React.Component {
       },
       stockHeaders: [],
       stockFile: {},
-      stockSort: {},
-      stockFilter: {},
+      stockSort: [],
+      stockFilter: [],
+
+      resultData: [],
+      resultMeta: {
+        fields: []
+      },
+      resultHeaders: [],
+      resultFile: {},
+      resultSort: [],
+      resultFilter: [],
 
       supplierData: [],
       supplierMeta: {
@@ -54,8 +64,8 @@ export default class Parser extends React.Component {
       },
       supplierHeaders: [],
       supplierFile: {},
-      supplierSort: {},
-      supplierFilter: {},
+      supplierSort: [],
+      supplierFilter: [],
 
       isModalOpen: false,
       isLeftColumnOpen: true,
@@ -68,6 +78,8 @@ export default class Parser extends React.Component {
     this.setTableData = this.setTableData.bind(this)
     this.onTableFilteredChange = this.onTableFilteredChange.bind(this)
     this.onTableSortedChange = this.onTableSortedChange.bind(this)
+    this.getTableFilteredChange = this.getTableFilteredChange.bind(this)
+    this.getTableSortedChange = this.getTableSortedChange.bind(this)
     this.loadFile = this.loadFile.bind(this)
     this.updateHeaders = this.updateHeaders.bind(this)
     this.updateDescription = this.updateDescription.bind(this)
@@ -83,6 +95,7 @@ export default class Parser extends React.Component {
     this.loadFile = this.loadFile.bind(this)
     this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
+    this.matchKiwiNails = this.matchKiwiNails.bind(this)
   }
 
   isDataLoaded() {
@@ -100,20 +113,28 @@ export default class Parser extends React.Component {
 
   setTableData(fileType) {
     let data, meta, headers, file, tableState
-    if (fileType === "supplier") {
-      const { supplierData, supplierMeta, supplierHeaders, supplierFile } = this.state
-      data = supplierData.map( row => row )
-      meta = { ...supplierMeta }
-      headers = supplierHeaders.map( header => header )
-      file = supplierFile
-      tableState = "supplier"
+    if (this.state.hasOwnProperty(`${ fileType }Headers`)) console.log(`${ fileType }Headers`)
+    if (fileType === "result") {
+      const { resultData, resultMeta, resultHeaders, resultFile } = this.state
+      data = resultData.map( row => row )
+      meta = { ...resultMeta }
+      headers = resultHeaders.map( header => header )
+      file = { ...resultFile }
+      tableState = "result"
     } else if (fileType === "stock") {
       const { stockData, stockMeta, stockHeaders, stockFile } = this.state
       data = stockData.map( row => row )
       meta = { ...stockMeta }
       headers = stockHeaders.map( header => header )
-      file = stockFile
+      file = { ...stockFile }
       tableState = "stock"
+    } else if (fileType === "supplier") {
+      const { supplierData, supplierMeta, supplierHeaders, supplierFile } = this.state
+      data = supplierData.map( row => row )
+      meta = { ...supplierMeta }
+      headers = supplierHeaders.map( header => header )
+      file = { ...supplierFile }
+      tableState = "supplier"
     }
     this.setState({
       data: data,
@@ -330,30 +351,57 @@ export default class Parser extends React.Component {
   }
 
   onTableFilteredChange(filtered, value) {
-    const identifier = this.state.tableState
-    console.log('Filter', identifier, filtered, value)
-    switch(identifier) {
-      case "stock": {
-        this.setState({
-          stockFilter: filtered
-        })
-        break
-      }
-      case "supplier": {
-        this.setState({
-          supplierFilter: filtered
-        })
-        break
-      }
-      default: {
-        break
-      }
-    }
+    const { tableState } = this.state
+    if (tableState === "result") this.setState({ result: filtered })
+    if (tableState === "stock") this.setState({ stockFilter: filtered })
+    if (tableState === "supplier") this.setState({ supplierFilter: filtered })
+  }
+
+  getTableFilteredChange() {
+    const { tableState, resultFilter, stockFilter, supplierFilter } = this.state
+    if (tableState === "result") return resultFilter
+    if (tableState === "stock") return stockFilter
+    if (tableState === "supplier") return supplierFilter
+    return []
   }
 
   onTableSortedChange(sorted, column, shiftKey) {
-    const identifier = this.state.tableState
-    console.log('Sort', identifier, sorted, column, shiftKey)
+    const { tableState } = this.state
+    if (tableState === "result") this.setState({ resultSort: sorted })
+    if (tableState === "stock") this.setState({ stockSort: sorted })
+    if (tableState === "supplier") this.setState({ supplierSort: sorted })
+  }
+
+  getTableSortedChange() {
+    const { tableState, resultSort, stockSort, supplierSort } = this.state
+    if (tableState === "result") return resultSort
+    if (tableState === "stock") return stockSort
+    if (tableState === "supplier") return supplierSort
+    return []
+  }
+
+  matchKiwiNails() {
+    console.log('Kiwinails')
+    const { stockData, supplierData } = this.state
+    let kiwinails = new KiwiNails({
+      stockData: stockData,
+      supplierData: supplierData,
+    })
+
+    let resultHeaders = kiwinails.updateColumns()
+    this.updateHeaders(resultHeaders)
+    resultHeaders = resultHeaders.map( header => header.value )
+
+    const matchSupplierCodeData = kiwinails.matchWithSupplierCode()
+
+    this.setState({
+      data: matchSupplierCodeData,
+      meta: { fields: resultHeaders },
+      resultMeta: { fields: resultHeaders },
+      resultData: matchSupplierCodeData,
+      resultHeaders: resultHeaders,
+      tableState: "result",
+    })
   }
 
   render() {
@@ -365,9 +413,10 @@ export default class Parser extends React.Component {
       isLeftColumnOpen,
       stockData,
       stockFile,
-      stockFilter,
       supplierData,
       supplierFile,
+      resultData,
+      resultFile,
     } = this.state
 
     // actions available to set headers for import and updates
@@ -391,6 +440,14 @@ export default class Parser extends React.Component {
               >
                 <FontAwesomeIcon icon={ faBars } color="navy" />
               </button>
+              { resultFile && resultData.length > 0 &&
+                <div
+                  className={ `${ tableState === "result" ? "bg-green white" : "" } pointer ml2 dib pa1 br1 br--top` }
+                  onClick={ (e) => this.setTableData("result") }
+                  >
+                  <strong>{ stockFile.name } ({ stockData.length } rows)</strong>
+                </div>
+              }
               { stockFile && stockData.length > 0 &&
                 <div
                   className={ `${ tableState === "stock" ? "bg-black-60 white" : "" } pointer ml2 dib pa1 br1 br--top` }
@@ -427,16 +484,30 @@ export default class Parser extends React.Component {
               <div>
                 { /* file actions */ }
                 { /* display file meta info */ }
-                <div className="mt1">
-                  <FileMeta
-                    title = "Stock File"
-                    identifier="stock"
-                    tableState={ tableState }
-                    filename={ stockFile.name }
-                    rows={ stockData.length }
-                    onClick={ this.setTableData }
-                  />
-                </div>
+                { resultFile && resultData.length > 0 &&
+                  <div className="mt1">
+                    <FileMeta
+                      title = "Result File"
+                      identifier="result"
+                      tableState={ tableState }
+                      filename={ resultFile.name }
+                      rows={ resultData.length }
+                      onClick={ this.setTableData }
+                    />
+                  </div>
+                }
+                { stockFile && stockData.length > 0 &&
+                  <div className="mt1">
+                    <FileMeta
+                      title = "Stock File"
+                      identifier="stock"
+                      tableState={ tableState }
+                      filename={ stockFile.name }
+                      rows={ stockData.length }
+                      onClick={ this.setTableData }
+                    />
+                  </div>
+                }
                 { supplierFile && supplierData.length > 0 &&
                   <div className="mt1">
                     <FileMeta
@@ -463,6 +534,11 @@ export default class Parser extends React.Component {
                     />
                   </div>
                 }
+                <strong className="db bt b--black-50 black-70 ph2 pv1">Data Operations</strong>
+                <button className="tl w-100 bw0 br3 bg-light-gray pv2 ph3 mv1 fw1 pointer db bg-animate hover-white hover-bg-gray"
+                  onClick={ this.matchKiwiNails }
+                  >Match KiwiNails
+                </button>
               </div>
             }
             <div>
@@ -497,6 +573,8 @@ export default class Parser extends React.Component {
               onChange={ this.updateHeaders }
               onFilteredChange={ this.onTableFilteredChange }
               onSortedChange={ this.onTableSortedChange }
+              filtered={ this.getTableFilteredChange }
+              sorted={ this.getTableSortedChange }
             />
           </div>
         }
