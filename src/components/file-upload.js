@@ -11,6 +11,7 @@ export default class FileUpload extends React.Component {
     this.userSelectFile = this.userSelectFile.bind(this)
     this.selectFile = this.selectFile.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
+    this.state = { visible: false }
   }
 
   uploadFile() {
@@ -31,6 +32,7 @@ export default class FileUpload extends React.Component {
      * operates within 'Upload file' modal form
      */
     document.getElementById('fileinput').click()
+    this.setState({ visible: true })
   }
 
   componentDidMount() {
@@ -42,6 +44,7 @@ export default class FileUpload extends React.Component {
         borderColour = "dark-blue",
         hoverColour = "dark-blue"
     const { fileType } = this.props
+    const { visible } = this.state
     if (fileType === "supplier") {
       bgColour = "orange"
       borderColour = "red"
@@ -49,7 +52,7 @@ export default class FileUpload extends React.Component {
     }
     return (
       <div>
-        <div className="relative mv3 dt dib w-100">
+        <div className={ `relative mv3 ${ visible ? "dt db" : "dn" } w-100` }>
           <div
             className={ `bw0 br3 b--${ borderColour } bg-${ bgColour } pv2 ph3 mv2 white fw1 br2 br--left pointer dtc dib bg-animate hover-bg-${ borderColour }` }
             onClick={ this.selectFile }>

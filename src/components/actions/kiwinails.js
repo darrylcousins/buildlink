@@ -33,8 +33,8 @@ export default class KiwiNails {
         row => {
           challengeRow = supplierData.find(
             r => (
-              r["Supplier Code"] === row["Supplier Prod Code"]
-               && r["Barcode"] === row["Barcode"]
+              r["Barcode"] === row["Barcode"]
+              && r["Supplier Code"] === row["Supplier Prod Code"]
             )
           )
           if (challengeRow) return Object.assign(challengeRow, row)

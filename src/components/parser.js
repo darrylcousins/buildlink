@@ -26,6 +26,8 @@ import FileDownload from './file-download'
 import FileUpload from './file-upload'
 import DataTable from './data-table'
 
+const buttonStyle = "w-100 bw0 br3 pv2 ph3 mv1 fw1 pointer db bg-animate"
+
 export default class Parser extends React.Component {
 
   constructor(props) {
@@ -96,6 +98,7 @@ export default class Parser extends React.Component {
     this.parseFile = this.parseFile.bind(this)
     this.reloadCurrentFile = this.reloadCurrentFile.bind(this)
     this.matchKiwiNails = this.matchKiwiNails.bind(this)
+    this.getTableStateStyle = this.getTableStateStyle.bind(this)
   }
 
   isDataLoaded() {
@@ -112,36 +115,29 @@ export default class Parser extends React.Component {
   }
 
   setTableData(fileType) {
-    let data, meta, headers, file, tableState
-    if (this.state.hasOwnProperty(`${ fileType }Headers`)) console.log(`${ fileType }Headers`)
-    if (fileType === "result") {
-      const { resultData, resultMeta, resultHeaders, resultFile } = this.state
-      data = resultData.map( row => row )
-      meta = { ...resultMeta }
-      headers = resultHeaders.map( header => header )
-      file = { ...resultFile }
-      tableState = "result"
-    } else if (fileType === "stock") {
-      const { stockData, stockMeta, stockHeaders, stockFile } = this.state
-      data = stockData.map( row => row )
-      meta = { ...stockMeta }
-      headers = stockHeaders.map( header => header )
-      file = { ...stockFile }
-      tableState = "stock"
-    } else if (fileType === "supplier") {
-      const { supplierData, supplierMeta, supplierHeaders, supplierFile } = this.state
-      data = supplierData.map( row => row )
-      meta = { ...supplierMeta }
-      headers = supplierHeaders.map( header => header )
-      file = { ...supplierFile }
-      tableState = "supplier"
-    }
+    /*
+     * fileType one of 'result', 'stock', 'supplier'
+     */
+    let prop, data, meta, headers, file
+
+    prop = `${ fileType }Data`
+    if (this.state.hasOwnProperty(prop)) data = this.state[prop].map( row => row)
+
+    prop = `${ fileType }Meta`
+    if (this.state.hasOwnProperty(prop)) meta = { ...this.state[prop] }
+
+    prop = `${ fileType }Headers`
+    if (this.state.hasOwnProperty(prop)) headers = this.state[prop].map( header => header)
+
+    prop = `${ fileType }File`
+    if (this.state.hasOwnProperty(prop)) file = { ...this.state[prop] }
+
     this.setState({
       data: data,
       meta: meta,
       headers: headers,
       file: file,
-      tableState: tableState,
+      tableState: fileType,
     })
   }
 
@@ -275,13 +271,12 @@ export default class Parser extends React.Component {
 
     // need to note if this is a new column and update data accordingly
     // find values not in original file headers
-    const { data, meta } = this.state
+    const { data, meta, tableState } = this.state
     const newHeaders = value
       .map( (n) => n.value )
       .filter( (n) => !meta.fields.includes(n) )
 
     // map to data and add new fields if missing
-    // change data in place
     const newData = data.map(
       row => {
         let nrow = {...row}
@@ -293,12 +288,19 @@ export default class Parser extends React.Component {
     )
 
     // stock data updated
-    this.setState({
-      data: newData,
-      headers: headers,
-      stockData: newData,
-      stockHeaders: headers
-    })
+    if (tableState === "stock") {
+      this.setState({
+        data: newData,
+        headers: headers,
+        stockData: newData,
+        stockHeaders: headers
+      })
+    } else {
+      this.setState({
+        data: newData,
+        headers: headers,
+      })
+    }
   }
 
   setUpdateColumns(selected, action) {
@@ -358,26 +360,37 @@ export default class Parser extends React.Component {
   }
 
   getTableFilteredChange() {
-    const { tableState, resultFilter, stockFilter, supplierFilter } = this.state
-    if (tableState === "result") return resultFilter
-    if (tableState === "stock") return stockFilter
-    if (tableState === "supplier") return supplierFilter
+    /*
+     * fileType one of 'result', 'stock', 'supplier'
+     */
+    let prop = `${ this.state.tableState }Filter`
+    if (this.state.hasOwnProperty(prop)) return this.state[prop]
     return []
   }
 
   onTableSortedChange(sorted, column, shiftKey) {
     const { tableState } = this.state
     if (tableState === "result") this.setState({ resultSort: sorted })
-    if (tableState === "stock") this.setState({ stockSort: sorted })
+    if (tableState === "stock") this.setState({ "stockSort": sorted })
     if (tableState === "supplier") this.setState({ supplierSort: sorted })
   }
 
   getTableSortedChange() {
-    const { tableState, resultSort, stockSort, supplierSort } = this.state
-    if (tableState === "result") return resultSort
-    if (tableState === "stock") return stockSort
-    if (tableState === "supplier") return supplierSort
+    /*
+     * fileType one of 'result', 'stock', 'supplier'
+     */
+    let prop = `${ this.state.tableState }Sort`
+    if (this.state.hasOwnProperty(prop)) return this.state[prop]
     return []
+  }
+
+  getTableStateStyle(tableState) {
+    if (!tableState) {
+      tableState = this.state.tableState
+    }
+    if (tableState === "result") return "bg-green white hover-bg-dark-green"
+    if (tableState === "stock") return "bg-dark-blue white hover-bg-navy"
+    if (tableState === "supplier") return "bg-gold white hover-bg-red"
   }
 
   matchKiwiNails() {
@@ -442,7 +455,7 @@ export default class Parser extends React.Component {
               </button>
               { resultFile && resultData.length > 0 &&
                 <div
-                  className={ `${ tableState === "result" ? "bg-green white" : "" } pointer ml2 dib pa1 br1 br--top` }
+                  className={ `${ tableState === "result" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
                   onClick={ (e) => this.setTableData("result") }
                   >
                   <strong>{ stockFile.name } ({ stockData.length } rows)</strong>
@@ -450,7 +463,7 @@ export default class Parser extends React.Component {
               }
               { stockFile && stockData.length > 0 &&
                 <div
-                  className={ `${ tableState === "stock" ? "bg-black-60 white" : "" } pointer ml2 dib pa1 br1 br--top` }
+                  className={ `${ tableState === "stock" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
                   onClick={ (e) => this.setTableData("stock") }
                   >
                   <strong>{ stockFile.name } ({ stockData.length } rows)</strong>
@@ -458,7 +471,7 @@ export default class Parser extends React.Component {
               }
               { supplierFile && supplierData.length > 0 &&
                 <div
-                  className={ `${ tableState === "supplier" ? "bg-black-60 white" : "" } pointer ml2 dib pa1 br1 br--top` }
+                  className={ `${ tableState === "supplier" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
                   onClick={ (e) => this.setTableData("supplier") }
                   >
                   <strong>{ supplierFile.name } ({ supplierData.length } rows)</strong>
@@ -490,6 +503,7 @@ export default class Parser extends React.Component {
                       title = "Result File"
                       identifier="result"
                       tableState={ tableState }
+                      getTableStateStyle={ this.getTableStateStyle }
                       filename={ resultFile.name }
                       rows={ resultData.length }
                       onClick={ this.setTableData }
@@ -502,6 +516,7 @@ export default class Parser extends React.Component {
                       title = "Stock File"
                       identifier="stock"
                       tableState={ tableState }
+                      getTableStateStyle={ this.getTableStateStyle }
                       filename={ stockFile.name }
                       rows={ stockData.length }
                       onClick={ this.setTableData }
@@ -514,6 +529,7 @@ export default class Parser extends React.Component {
                       title = "Supplier File"
                       identifier="supplier"
                       tableState={ tableState }
+                      getTableStateStyle={ this.getTableStateStyle }
                       filename={ supplierFile.name }
                       rows={ supplierData.length }
                       onClick={ this.setTableData }
@@ -544,17 +560,17 @@ export default class Parser extends React.Component {
             <div>
               <strong className="db bt b--black-50 black-70 ph2 pv1">Load Data</strong>
               { /* buttons */ }
-              <button className="w-100 bw0 br3 bg-dark-blue pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-navy"
+              <button className={ `${ this.getTableStateStyle("stock") } ${ buttonStyle }` }
                 onClick={ (e) => this.openModal(e, 'renderUploadModal') }
                 >Upload stock file
               </button>
               { (this.isDataLoaded()) &&
               <div>
-                <button className="w-100 bw0 br3 bg-gold pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-red"
+                <button className={ `${ this.getTableStateStyle("supplier") } ${ buttonStyle }` }
                   onClick={ (e) => this.openModal(e, 'renderSupplierUploadModal') }>
                   Upload Supplier File
                 </button>
-                <button className="w-100 bw0 br3 bg-green pv2 ph3 mv1 white fw1 pointer db bg-animate hover-bg-dark-green"
+                <button className={ `${ this.getTableStateStyle("result") } ${ buttonStyle }` }
                   onClick={ (e) => this.openModal(e, 'renderDownloadModal') }>
                   Download result
                 </button>

@@ -35,6 +35,7 @@ export default class DataTable extends React.Component {
       header => ({'label': header, 'value': header})
     )
 
+    const classNames =  `pb1 black-60`
     return (
       <div className="pl3">
         <div className="pb1">
@@ -48,6 +49,9 @@ export default class DataTable extends React.Component {
               isMulti
             />
           }
+        </div>
+        <div className={ classNames }>
+          Bless
         </div>
         <ReactTable
           data={ data }
