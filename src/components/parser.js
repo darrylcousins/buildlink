@@ -22,6 +22,7 @@ import { setUnits } from './actions/units'
 import KiwiNails from './actions/kiwinails'
 import ModalWrapper from './modal-wrapper'
 import FileMeta from './file-meta'
+import FileChoose from './file-choose'
 import FileDownload from './file-download'
 import FileUpload from './file-upload'
 import DataTable from './data-table'
@@ -117,6 +118,7 @@ export default class Parser extends React.Component {
   setTableData(fileType) {
     /*
      * fileType one of 'result', 'stock', 'supplier'
+     * XXX major method that sets the visible data of the table
      */
     let prop, data, meta, headers, file
 
@@ -454,28 +456,31 @@ export default class Parser extends React.Component {
                 <FontAwesomeIcon icon={ faBars } color="navy" />
               </button>
               { resultFile && resultData.length > 0 &&
-                <div
-                  className={ `${ tableState === "result" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
-                  onClick={ (e) => this.setTableData("result") }
-                  >
-                  <strong>{ stockFile.name } ({ stockData.length } rows)</strong>
-                </div>
+                <FileChoose
+                  identifier="result"
+                  renderType="titleLink"
+                  tableState={ tableState }
+                  onClick={ this.setTableData }
+                  fileInfo={ { name: "result.csv", length: resultData.length } }
+                />
               }
               { stockFile && stockData.length > 0 &&
-                <div
-                  className={ `${ tableState === "stock" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
-                  onClick={ (e) => this.setTableData("stock") }
-                  >
-                  <strong>{ stockFile.name } ({ stockData.length } rows)</strong>
-                </div>
+                <FileChoose
+                  identifier="stock"
+                  renderType="titleLink"
+                  tableState={ tableState }
+                  onClick={ this.setTableData }
+                  fileInfo={ { name: stockFile.name, length: stockData.length } }
+                />
               }
               { supplierFile && supplierData.length > 0 &&
-                <div
-                  className={ `${ tableState === "supplier" ? this.getTableStateStyle() : "" } pointer ml2 dib pa1 br1 br--top` }
-                  onClick={ (e) => this.setTableData("supplier") }
-                  >
-                  <strong>{ supplierFile.name } ({ supplierData.length } rows)</strong>
-                </div>
+                <FileChoose
+                  identifier="supplier"
+                  renderType="titleLink"
+                  tableState={ tableState }
+                  onClick={ this.setTableData }
+                  fileInfo={ { name: supplierFile.name, length: supplierData.length } }
+                />
               }
             </div>
         }
@@ -498,43 +503,31 @@ export default class Parser extends React.Component {
                 { /* file actions */ }
                 { /* display file meta info */ }
                 { resultFile && resultData.length > 0 &&
-                  <div className="mt1">
-                    <FileMeta
-                      title = "Result File"
-                      identifier="result"
-                      tableState={ tableState }
-                      getTableStateStyle={ this.getTableStateStyle }
-                      filename={ resultFile.name }
-                      rows={ resultData.length }
-                      onClick={ this.setTableData }
-                    />
-                  </div>
+                  <FileChoose
+                    identifier="result"
+                    renderType="metaLink"
+                    tableState={ tableState }
+                    onClick={ this.setTableData }
+                    fileInfo={ { name: resultFile.name, length: resultData.length } }
+                  />
                 }
                 { stockFile && stockData.length > 0 &&
-                  <div className="mt1">
-                    <FileMeta
-                      title = "Stock File"
-                      identifier="stock"
-                      tableState={ tableState }
-                      getTableStateStyle={ this.getTableStateStyle }
-                      filename={ stockFile.name }
-                      rows={ stockData.length }
-                      onClick={ this.setTableData }
-                    />
-                  </div>
+                  <FileChoose
+                    identifier="stock"
+                    renderType="metaLink"
+                    tableState={ tableState }
+                    onClick={ this.setTableData }
+                    fileInfo={ { name: stockFile.name, length: stockData.length } }
+                  />
                 }
                 { supplierFile && supplierData.length > 0 &&
-                  <div className="mt1">
-                    <FileMeta
-                      title = "Supplier File"
-                      identifier="supplier"
-                      tableState={ tableState }
-                      getTableStateStyle={ this.getTableStateStyle }
-                      filename={ supplierFile.name }
-                      rows={ supplierData.length }
-                      onClick={ this.setTableData }
-                    />
-                  </div>
+                  <FileChoose
+                    identifier="supplier"
+                    renderType="metaLink"
+                    tableState={ tableState }
+                    onClick={ this.setTableData }
+                    fileInfo={ { name: supplierFile.name, length: supplierData.length } }
+                  />
                 }
                 { /* actions to set header columns */ }
                 { tableState === "stock" &&

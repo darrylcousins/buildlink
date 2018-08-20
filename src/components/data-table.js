@@ -56,7 +56,7 @@ export default class DataTable extends React.Component {
         <ReactTable
           data={ data }
           columns={ columns }
-          defaultPageSize={ 17 }
+          defaultPageSize={ 15 }
           filterable={ true }
           onFilteredChange={ onFilteredChange }
           onSortedChange={ onSortedChange }
