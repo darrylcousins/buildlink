@@ -356,7 +356,7 @@ export default class Parser extends React.Component {
 
   onTableFilteredChange(filtered, value) {
     const { tableState } = this.state
-    if (tableState === "result") this.setState({ result: filtered })
+    if (tableState === "result") this.setState({ resultFilter: filtered })
     if (tableState === "stock") this.setState({ stockFilter: filtered })
     if (tableState === "supplier") this.setState({ supplierFilter: filtered })
   }
